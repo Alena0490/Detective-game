@@ -1,44 +1,67 @@
 
 .game-header {
+  width: 100%;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
     max-width: 950px;
     margin: 0 auto;
-    padding: 0.5rem 1rem;
+    padding: 0.5rem 0;
 }
 
+/* BASE */
 progress {
-  display: block; /* default: inline-block */
-  width: 300px;
-  margin: 2em auto;
-  padding: 4px;
-  border: 0 none;
-  background: #444;
-  border-radius: 14px;
-  box-shadow: inset 0px 1px 1px rgba(0,0,0,0.5), 0px 1px 0px rgba(255,255,255,0.2);
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  display: block;
+  width: 200px;                     /* nechávám, jak máš */
+  margin: var(--space-8) 0;
+  padding: var(--space-1);
+  padding-bottom: var(--space-01);
+  border: 0;
+  background: var(--color-gray-700);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.5),
+              0 1px 0 rgba(255,255,255,0.2);
+  height: var(--space-6);           /* sjednocená výška i mimo WebKit */
+  overflow: hidden;                 /* zajistí čisté zaoblení výplně */
 }
+
+progress::-moz-progress-bar:hover {
+  filter: brightness(1.5);
+}
+
+/* FIREFOX */
 progress::-moz-progress-bar {
-  border-radius: 12px;
-  background: #FFF;
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3);
-  
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4),
+              0 2px 5px rgba(0,0,0,0.3);
 }
-/* webkit */
-@media screen and (-webkit-min-device-pixel-ratio:0) {
-  progress {
-    height: 25px;
-  }
-}
+
+/* WEBKIT (Chrome / Safari / Edge) */
 progress::-webkit-progress-bar {
-    background: transparent;
-}  
-progress::-webkit-progress-value {  
-  border-radius: 12px;
-  background: #FFF;
-  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4), 0 2px 5px 0px rgba(0,0,0,0.3); 
+  background: transparent; 
 } 
+
+progress::-webkit-progress-value {
+  background: var(--color-accent);
+  border-radius: var(--radius-pill);
+  box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4),
+              0 2px 5px rgba(0,0,0,0.3);
+  transition: fiter 0.4s linear;
+}
+
+progress::-webkit-progress-value:hover {
+  filter: brightness(1.1);
+}
+
+progress:focus-visible {
+  outline: var(--outline-focus);
+}
 
 .game-main {
   max-width: 960px;
@@ -57,4 +80,14 @@ progress::-webkit-progress-value {
   gap: 1rem 0.5rem;
   align-items: start;
   justify-content: center;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  progress { scroll-behavior: auto; }
+}
+
+@media (max-width: 950px) {
+  .game-header {
+    padding: 0.5rem 1rem;
+  }
 }

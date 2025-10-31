@@ -39,6 +39,13 @@ const MODALS: Record<ModalKey, React.LazyExoticComponent<React.ComponentType<Mod
 
 const MainGame: React.FC<MainGameProps> = ({ children }) => {
   const [openKey, setOpenKey] = useState<ModalKey | null>(null);
+  const [progress, setProgress] = useState(10);
+
+  const getProgressClass = (value: number) => {
+  if (value <= 10) return 'progress-low';
+  if (value >= 90) return 'progress-high';
+  return 'progress-medium';
+};
 
   // modál zavřeš uvnitř jeho X tlačítkem: window.dispatchEvent(new CustomEvent("modal:close"))
   useEffect(() => {
@@ -56,8 +63,12 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
     <div className="game-root">
       <header className="game-header" role="banner">
         <h1 className="case-title">Case #0138 - Line-0</h1>
-        <progress max="100" value="10">
-          <strong>Progress: 10% done.</strong>
+        <progress
+          className={getProgressClass(progress)} 
+          max="100" 
+          value="10"
+        >
+          <strong>Progress: {progress} % done.</strong>
         </progress>
       </header>
 

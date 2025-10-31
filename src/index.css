@@ -109,6 +109,7 @@
     --dur-slow: 380ms;
 
     /* 📐 Spaces (8-pt scale) */
+    --space-01: .125rem;  /* 2px */
     --space-1: .25rem;  /* 4px */
     --space-2: .5rem;   /* 8px */
     --space-3: .75rem;  /* 12px */
