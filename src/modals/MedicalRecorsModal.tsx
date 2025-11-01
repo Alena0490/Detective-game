@@ -33,7 +33,7 @@ const MedicalRecordModal = ({ open, onClose }: ModalProps) => {
             <br/>
             <p>---</p>
             <br/>
-            <article className="medical-report" aria-label="Medical report">
+            <article className="medical-report fade-stagger" aria-label="Medical report">
                 <h3>CLINICAL EXAMINATION RECORD</h3>
                  <p><strong>General University Hospital in Prague</strong> — 29 Oct 2025</p>
 

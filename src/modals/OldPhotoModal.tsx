@@ -31,7 +31,7 @@ const OldPhotoModal = ({ open, onClose }: ModalProps) => {
                 <p>ORIGIN: SEALED METAL CHEST — SUBSURFACE SITE / VLTAVSKÁ MAINTENANCE SECTOR</p>
             </article>
             <br/>
-            <article aria-label="Photograph description">
+            <article aria-label="Photograph description" className="fade-stagger">
                 <h3>Photograph — Dr. Antonin Richter (circa 1955)</h3>
                 <p>Black-and-white <strong>portrait photograph</strong>, approx. 3.5 × 5 cm, printed on matte paper.  
                 Depicts a man in a <strong>formal suit and tie</strong>, facing forward in neutral lighting — consistent with <strong>identification or personnel documentation</strong>.  

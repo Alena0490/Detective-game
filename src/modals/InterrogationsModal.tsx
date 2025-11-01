@@ -31,7 +31,7 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
                 <p className="capital">Czech Federal Investigation Office — Special Operations Division</p>
             </article>
             <br/>
-            <article>
+            <article className="fade-stagger">
                  <h3>Witness Statement #1 — Pavel Vrba (Metro Maintenance Technician, 47)</h3>
                 <p><em>Recorded: 30 Oct 2025 / 11:15 CET — Station: Vltavská</em></p>
 

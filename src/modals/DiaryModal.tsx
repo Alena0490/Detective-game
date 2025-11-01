@@ -33,7 +33,7 @@ const DiaryModal = ({ open, onClose }: ModalProps) => {
             <br/>
             <p>---</p>
             <br/>
-            <article aria-label="Diary excerpt">
+            <article aria-label="Diary excerpt" className="evidence-paper fade-stagger">
                 <h3>Engineering Logbook (1955)</h3>
                 <p><em>Notebook contains multiple handwriting styles and initials, suggesting shared maintenance among project staff.</em></p>
 

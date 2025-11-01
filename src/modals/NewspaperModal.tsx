@@ -33,7 +33,7 @@ const NewspaperModal = ({ open, onClose }: ModalProps) => {
             <br/>
             <p>---</p>
             <br/>
-            <article className="newspaper">
+            <article className="newspaper evidence-paper fade-stagger">
                 <h3>Prague, Two Workers Are Missing</h3>
                 <p><em>October 30, 1955 – By a Staff Correspondent</em></p>
                 <br/>

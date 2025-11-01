@@ -26,7 +26,7 @@ function  SecurityFootage({ onOpen, state }: Props) {
       onClick={onOpen}
       onKeyDown={handleKeyDown}
     >
-      <img src={Footage} alt="Security footage" className="lg"/>
+      <img src={Footage} alt="Security footage" className="lg crt"/>
     </article>
   );
 }

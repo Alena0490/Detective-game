@@ -63,13 +63,15 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
     <div className="game-root">
       <header className="game-header" role="banner">
         <h1 className="case-title">Case 2510 - Amnesia</h1>
-        <progress
-          style={{ '--progress-color': getProgressColor(progress) } as React.CSSProperties}
-          max="100" 
-          value={progress}
-        >
-          <strong>Progress: {progress} % done.</strong>
-        </progress>
+        <div className="progress-wrap">
+          <progress
+            style={{ '--progress-color': getProgressColor(progress) } as React.CSSProperties}
+            max="100" 
+            value={progress}
+          >
+            <strong>Progress: {progress} % done.</strong>
+          </progress>
+        </div>
       </header>
 
       <main id="main-evidence" className="game-main" role="main">

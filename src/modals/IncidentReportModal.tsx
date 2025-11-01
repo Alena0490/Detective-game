@@ -44,7 +44,7 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                     <br/>
                     <p>---</p>
                     <br/>
-                    <article>
+                    <article className="evidence-paper">
                         <section>
                             <h3>Incident Summary</h3>
                             <p>
@@ -98,10 +98,10 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                             <br/>
                         <section className="evi-signatures" aria-label="Signatures">
                             <div className="sig">
-                            <p><strong>P. Kral</strong><br /><small className="white">Night Operations Supervisor</small><br />Filed: 05:15&nbsp;CET</p>
+                            <p><strong>P. Kral</strong><br /><small className="ink">Night Operations Supervisor</small><br />Filed: 05:15&nbsp;CET</p>
                             </div>
                             <div className="sig">
-                            <p><strong>M. Hanak</strong><br /><small className="white">Senior Facility Engineer</small><br />Approved: 05:22&nbsp;CET</p>
+                            <p><strong>M. Hanak</strong><br /><small className="ink">Senior Facility Engineer</small><br />Approved: 05:22&nbsp;CET</p>
                             </div>
                         </section>
                     </article>      

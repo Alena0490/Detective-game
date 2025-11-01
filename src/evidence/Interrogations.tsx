@@ -26,7 +26,7 @@ function  Interrogations({ onOpen, state }: Props) {
       onClick={onOpen}
       onKeyDown={handleKeyDown}
     >
-      <img src={Testimonies} alt="Testimonies" className="lg"/>
+      <img src={Testimonies} alt="Testimonies" className="lg crt"/>
     </article>
   );
 }

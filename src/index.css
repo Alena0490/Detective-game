@@ -123,6 +123,10 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+    font-size: inherit;
+}
+
+html {
     font-size: 16px;
 }
 
@@ -133,6 +137,28 @@ body {
     font-size: var(--fs-md);
     line-height: var(--lh-normal);
 }
+
+body::before{
+  content:"";
+  position:fixed; inset:0; pointer-events:none; z-index:1;
+  background: radial-gradient(120% 95% at 50% 8%, transparent 42%, rgba(0,0,0,.55) 90%);
+  mix-blend-mode:multiply;
+}
+
+/* Zrno + drobné „částečky prachu“ bez obrázků */
+body::after{
+  content:"";
+  position:fixed; inset:-2% -2% -2% -2%; pointer-events:none; z-index:1;
+  background:
+    /* jemné scan-lines */
+    repeating-linear-gradient(0deg, rgba(255,255,255,.015) 0 2px, transparent 2px 4px),
+    /* šum */
+    repeating-linear-gradient(90deg, rgba(0,0,0,.015) 0 3px, transparent 3px 6px);
+  mix-blend-mode:soft-light;
+  opacity:.25;
+  animation:grainShift 6s steps(6) infinite;
+}
+@keyframes grainShift{ to { transform: translate(-6px,-6px);} }
 
 h1 {
     color: var(--color-secondary-light);
@@ -160,8 +186,8 @@ small {
     color: var(--color-text-muted); 
 }
 
-.white {
-    color: var(--color-text);
+.ink {
+    color: var(--color-ink);
 }
 
 .card {
@@ -221,4 +247,86 @@ small {
     background: var(--paper-92); 
     border: 0.0625rem solid var(--accent-16); 
     box-shadow: 0 0.0625rem 0 var(--accent-16) inset; 
+}
+
+/* Animation */
+/* Jednořádkový „typewriter“ */
+.tw-reveal{
+  overflow:hidden; white-space:nowrap;
+  border-right:.08em solid currentColor;
+  animation: twType 1.6s steps(24,end) var(--tw-delay,0ms) both, twCaret 750ms step-end infinite;
+}
+@keyframes twType{ from{ width:0 } to{ width:100% } }
+@keyframes twCaret{ 50%{ border-color:transparent } }
+
+/* Více řádků: jemný „fade-in“ s posunem (pro odstavce/lists) */
+.fade-stagger > *{
+  opacity:0; transform: translateY(4px);
+  animation: fadeUp 1s var(--ease-out) forwards;
+  animation-delay: calc(80ms * var(--i, 0));
+}
+@keyframes fadeUp{ to{ opacity:1; transform:none } }
+
+.flicker-soft{
+  text-shadow: 0 0 .15em rgba(212,160,23,.25);
+  animation: flicker 2.8s linear infinite;
+}
+@keyframes flicker{
+  0%, 100% { opacity:1; filter:none }
+  8%       { opacity:.96 }
+  12%      { opacity:.85; filter:brightness(1.05) }
+  13%      { opacity:.98 }
+  22%      { opacity:.9 }
+  55%      { opacity:.97 }
+  57%      { opacity:.8; filter:brightness(1.08) }
+  60%      { opacity:1; filter:none }
+}
+
+.noir-ca{
+  filter: drop-shadow(0 0 0 rgba(255,40,40,.12))
+          drop-shadow(0 0 0 rgba(40,180,255,.14));
+}
+.noir-ca:hover{ filter: drop-shadow(0 0 0 rgba(255,40,40,.16))
+                        drop-shadow(0 0 0 rgba(40,180,255,.18)); }
+
+.sweep{
+  position: relative; overflow:hidden;
+}
+.sweep::after{
+  content:""; position:absolute; inset:-20% -120% -20% -120%;
+  background: linear-gradient(100deg, transparent 40%, rgba(255,255,255,.10) 50%, transparent 60%);
+  transform: translateX(-30%) rotate(8deg);
+  transition: transform .9s var(--ease-out);
+  pointer-events:none;
+}
+.sweep:hover::after{ transform: translateX(35%) rotate(8deg); }
+
+.crt{
+  position: relative; isolation:isolate;
+}
+.crt::before{
+  content:""; position:absolute; inset:0; pointer-events:none;
+  background:
+    linear-gradient(transparent 95%, rgba(255,255,255,.06) 100%) 0 0/100% 2px,
+    linear-gradient(rgba(0,0,0,.12), rgba(0,0,0,.12));
+  mix-blend-mode: overlay;
+  opacity:.7;
+}
+.crt::after{
+  content:"REC 03:12"; position:absolute; top:.5rem; right:.75rem;
+  font: 600 .75rem/1 var(--font-typewriter-clean);
+  color: rgba(255,70,70,.9);
+  letter-spacing:.06em;
+  text-shadow: 0 0 .4em rgba(255,0,0,.35);
+}
+
+.stamp-pop{
+  display:inline-block; transform: scale(.98) rotate(-1.5deg);
+  filter: contrast(1.05) saturate(.95);
+  animation: stampIn .5s var(--ease-out) forwards;
+}
+@keyframes stampIn{
+  0%{ transform: scale(.8) rotate(-6deg); opacity:0 }
+  60%{ transform: scale(1.03) rotate(-2deg); opacity:1 }
+  100%{ transform: scale(.98) rotate(-1.5deg) }
 }

@@ -31,7 +31,7 @@ const MilitaryPlansModal = ({ open, onClose }: ModalProps) => {
             <p>ORIGIN: SEALED METAL CHEST — SUBSURFACE SITE / VLTAVSKÁ MAINTENANCE SECTOR</p>
             </article>
             <br/>
-            <article aria-label="Map fragment">
+            <article aria-label="Map fragment" className="fade-stagger">
                 <h3>Recovered Document — Transit Plan (circa 1955)</h3>
                 <p>Folded paper map titled <strong>“LINE-0”</strong>. Diagram shows a stand-alone underground alignment at a depth annotated below contemporary traction tunnels, with no junctions or interchange markings to existing lines. Notations reference <strong>“Sector D”</strong> but omit any municipal identifiers. Paper edges show heat exposure; type and symbols match <strong>mid-1950s military cartography</strong>.</p>
                 <p><strong>Police note:</strong> No official record of a route named <strong>“Line-0”</strong> exists. The alignment depicted is <em>not connected</em> to the Prague metro network and is charted at a depth <em>significantly below</em> known infrastructure.</p>
