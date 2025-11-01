@@ -1,14 +1,55 @@
 
 .game-header {
-  width: 100%;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    max-width: 950px;
-    margin: 0 auto;
-    padding: 0.5rem 0;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 1rem 1.25rem;
+  padding: .5rem 0;           /* nechávám tvoje rozměry */
+  position: relative;   
+  max-width: 950px;
+  margin: calc(var(--header-top) + env(safe-area-inset-top, 0px)) auto 2.5rem;
+  padding: 0.5rem 0 0.75rem;;
+  border-bottom: 1px solid rgba(255,255,255,0.08);
 }
+
+.game-header::after{
+  content:"";
+  position: absolute;
+  inset: calc(100% - 4px) 0 auto 0;       /* těsně pod header */
+  height: 100px;
+  pointer-events: none;
+  background:
+    radial-gradient(120% 80% at 50% -10%,
+      rgba(255,255,255,.08), rgba(0,0,0,0) 60%);
+  mix-blend-mode: soft-light;
+  opacity: .35;
+}
+
+.game-header h1{
+  letter-spacing: .02em;                  /* méně „nafouklé“ */
+  line-height: 1.1;
+  text-shadow: 0 2px 0 rgba(0,0,0,.35);   /* měkký noir stín */
+  margin: .25rem 0 0;
+}
+
+.game-header h2{
+  margin: .25rem 0 0;
+  letter-spacing: .015em;
+}
+
+.game-main h2 {
+  margin-top: 0;           /* odstraní mezeru po headeru */
+  margin-bottom: 0.75rem;  /* těsněji k evidenci */
+  color: var(--color-text-muted); /* jemnější tón, není to druhý titulek */
+  font-size: var(--fs-lg);
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+}
+
+.game-header .progress-wrap{
+  justify-self: end;
+}
+
 
 /* BASE */
 progress {
@@ -34,13 +75,46 @@ progress::-moz-progress-bar:hover {
   filter: brightness(1.5);
 }
 
-.progress-wrap{ display:flex; align-items:center; gap:.75rem; flex-wrap:wrap; }
-.progress-labels{ display:flex; gap:.5rem; align-items:center; font-family: var(--font-typewriter-clean); font-size: var(--fs-xs); color: var(--color-text-muted); }
+.progress-wrap{ 
+  display:flex; 
+  align-items:center; 
+  gap:.75rem; 
+  flex-wrap:wrap; 
+  justify-self: end;
+}
 
-progress{ box-shadow: inset 0 1px 1px rgba(0,0,0,0.35); }
+.progress-labels{ 
+  display:flex; 
+  gap:.5rem; 
+  align-items:center; 
+  font-family: var(--font-typewriter-clean); 
+  font-size: var(--fs-xs); 
+  color: var(--color-text-muted); 
+}
+
+progress{ 
+  box-shadow: inset 0 1px 1px rgba(0,0,0,0.35); 
+}
+
 progress::-webkit-progress-value,
-progress::-moz-progress-bar{ box-shadow:none; transition: filter .4s linear; }
+progress::-moz-progress-bar{ 
+  box-shadow:none; transition: 
+  filter .4s linear; 
+}
 
+/* Nenápadný štítek CASE vpravo od title */
+.game-header .progress-wrap::before{
+  content: "CASE " attr(data-case);
+  display: inline-block;
+  margin-right: .5rem;
+  font: 700 .75rem/1 var(--font-typewriter-clean);
+  letter-spacing: .08em;
+  color: rgba(255,255,255,.75);
+  padding: .2rem .5rem;
+  border: 1px solid rgba(255,255,255,.15);
+  border-radius: var(--radius-pill);
+  transform: translateY(-1px);
+}
 
 /* FIREFOX */
 progress::-moz-progress-bar {
@@ -88,4 +162,10 @@ progress:focus-visible {
   .game-header {
     padding: 0.5rem 1rem;
   }
+}
+
+@media (max-width: 720px){
+  .game-header{ grid-template-columns: 1fr; }
+  .game-header .progress-wrap{ justify-self: start; }
+  .game-header h1{ font-size: clamp(1.75rem, 2.8vw + 1.2rem, 2.6rem); }
 }
