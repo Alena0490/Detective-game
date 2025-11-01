@@ -24,12 +24,12 @@ const WatchModal = ({ open, onClose }: ModalProps) => {
 
         <section className="modal-body">
             <article>
-                <h3>EVIDENCE ITEM — WRISTWATCH</h3>
-                <p>CASE ID: PR-29-10-2025</p>
-                <p>ITEM NO.: 08</p>
-                <p>RECOVERED: 2025-10-29 / 08:12 CET</p>
-                <p>LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
-
+                <h3 className="capital">EVIDENCE ITEM — WRISTWATCH</h3>
+                <p className="capital">CASE ID: PR-29-10-2025</p>
+                <p className="capital">ITEM NO.: 08</p>
+                <p className="capital">RECOVERED: 2025-10-29 / 08:12 CET</p>
+                <p className="capital">LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
+                <br/>
                 <p><strong>Description:</strong></p>
                 <p>Silver mechanical wristwatch of mid-20th-century design.<br />
                 Movement intact but non-functional.<br />

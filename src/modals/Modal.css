@@ -73,3 +73,7 @@
 li {
     list-style-type: "- ";
 }
+
+.capital {
+    text-transform: uppercase;
+}

@@ -36,7 +36,7 @@ progress::-moz-progress-bar:hover {
 
 /* FIREFOX */
 progress::-moz-progress-bar {
-  background: var(--color-accent);
+  background: var(--progress-color);
   border-radius: var(--radius-pill);
   box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4),
               0 2px 5px rgba(0,0,0,0.3);
@@ -48,7 +48,7 @@ progress::-webkit-progress-bar {
 } 
 
 progress::-webkit-progress-value {
-  background: var(--color-accent);
+  background: var(--progress-color);
   border-radius: var(--radius-pill);
   box-shadow: inset 0 -2px 4px rgba(0,0,0,0.4),
               0 2px 5px rgba(0,0,0,0.3);

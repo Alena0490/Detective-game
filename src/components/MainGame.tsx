@@ -39,12 +39,12 @@ const MODALS: Record<ModalKey, React.LazyExoticComponent<React.ComponentType<Mod
 
 const MainGame: React.FC<MainGameProps> = ({ children }) => {
   const [openKey, setOpenKey] = useState<ModalKey | null>(null);
-  const [progress, setProgress] = useState(10);
+  const [progress, setProgress] = useState(80);
 
-  const getProgressClass = (value: number) => {
-  if (value <= 10) return 'progress-low';
-  if (value >= 90) return 'progress-high';
-  return 'progress-medium';
+  const getProgressColor = (value: number) => {
+    if (value <= 10) return 'var(--color-danger)';
+    if (value >= 90) return 'var(--color-success)';
+    return 'var(--color-accent)';
 };
 
   // modál zavřeš uvnitř jeho X tlačítkem: window.dispatchEvent(new CustomEvent("modal:close"))
@@ -62,11 +62,11 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
   return (
     <div className="game-root">
       <header className="game-header" role="banner">
-        <h1 className="case-title">Case #0138 - Line-0</h1>
+        <h1 className="case-title">Case 2510 - Amnesia</h1>
         <progress
-          className={getProgressClass(progress)} 
+          style={{ '--progress-color': getProgressColor(progress) } as React.CSSProperties}
           max="100" 
-          value="10"
+          value={progress}
         >
           <strong>Progress: {progress} % done.</strong>
         </progress>

@@ -24,17 +24,17 @@ const SubwayTicketModal = ({ open, onClose }: ModalProps) => {
 
         <section className="modal-body">
             <article>
-                <h3>EVIDENCE ITEM — METRO TICKET</h3>
-                <p>CASE ID: PR-29-10-2025</p>
-                <p>ITEM NO.: 02</p>
-                <p>RECOVERED: 2025-10-29 / 08:12 CET</p>
-                <p>LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
-
-                <p><strong>Description:</strong></p>
+                <h3 className="capital">EVIDENCE ITEM — METRO TICKET</h3>
+                <p className="capital">CASE ID: PR-29-10-2025</p>
+                <p className="capital">ITEM NO.: 02</p>
+                <p className="capital">RECOVERED: 2025-10-29 / 08:12 CET</p>
+                <p className="capital">LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
+                <br/>
+                <h3>Description:</h3>
                 <p>Paper fare ticket, mid-20th-century format.<br />
                 Non-standard substrate; faint embedded lattice visible under oblique light.<br />
                 Line: <strong>“Line-0”</strong> — <em>unofficial / non-public; no&nbsp;record in&nbsp;municipal transit registry</em>.<br />
-                Serial: <strong>[REDACTED]</strong>.</p>
+                Serial: <strong className="capital">[REDACTED]</strong>.</p>
 
                 <p><strong>Remarks:</strong></p>
                 <p>Slight thermal discoloration; no&nbsp;charring or&nbsp;tearing observed.<br />

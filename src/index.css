@@ -138,14 +138,14 @@ h1 {
     color: var(--color-secondary-light);
     font-size: var(--fs-h1); 
     line-height: var(--lh-tight);
-    font-family: var(--font-heading); 
+    font-family: var(--font-typewriter-rough); 
 }
 
 h2 {
     color: var(--color-primary);
     font-size: var(--fs-h2); 
     line-height: var(--lh-tight);
-    font-family: var(--font-heading); 
+    font-family: var(--font-typewriter-rough); 
 }
 
 h3 {

@@ -24,15 +24,15 @@ const SecurityFootageModal = ({ open, onClose }: ModalProps) => {
 
         <section className="modal-body">
             <article>
-                <h3>EVIDENCE ITEM — WRISTWATCH</h3>
-                <p>CASE ID: PR-29-10-2025</p>
-                <p>ITEM NO.: 04</p>
-                <p>ACQUIRED: 2025-11-02 / 10:49 CET</p>
-                <p>ORIGIN: CITY METRO SECURITY — CAMERA 07 (Line&nbsp;C)</p>
+                <h3 className="capital">EVIDENCE ITEM — SECURITY FOOTAGE</h3>
+                <p className="capital">CASE ID: PR-29-10-2025</p>
+                <p className="capital">ITEM NO.: 04</p>
+                <p className="capital">ACQUIRED: 2025-11-02 / 11:49 CET</p>
+                <p className="capital">ORIGIN: CITY METRO SECURITY — CAMERA 07 (Line&nbsp;C)</p>
             </article>
             <br/>
             <article>
-                <h3>SECURITY CAMERA RECORDING</h3>
+                <h3>Security Camera Recording</h3>
                 <p>CAM: 07 — Line&nbsp;C / Maintenance Access Corridor</p>
                 <p>DATE: 2025-10-29</p>
                 <p>TIME: 03:00-03:30</p>
