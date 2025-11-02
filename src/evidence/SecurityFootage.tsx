@@ -17,7 +17,7 @@ function  SecurityFootage({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence security-footage"
+      className="one-evidence security-footage noir-ca"
       data-state={state}
       data-size="lg"
       tabIndex={0}

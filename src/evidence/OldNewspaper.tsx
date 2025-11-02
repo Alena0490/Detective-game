@@ -17,7 +17,7 @@ function OldNewspaper({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence newspaper"
+      className="one-evidence newspaper noir-ca"
       data-state={state}
       data-size="sm"
       tabIndex={0}

@@ -17,7 +17,7 @@ function  IncidentReport({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence incident-report"
+      className="one-evidence incident-report noir-ca"
       data-state={state}
       data-size="lg"
       tabIndex={0}

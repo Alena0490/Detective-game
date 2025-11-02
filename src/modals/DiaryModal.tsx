@@ -12,7 +12,7 @@ const DiaryModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal diary-modal card"
+        className="modal diary-modal card  noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="diary-title"
@@ -33,7 +33,7 @@ const DiaryModal = ({ open, onClose }: ModalProps) => {
             <br/>
             <p>---</p>
             <br/>
-            <article aria-label="Diary excerpt" className="evidence-paper fade-stagger">
+            <article aria-label="Diary excerpt" className="evidence-paper fade-stagger tear">
                 <h3>Engineering Logbook (1955)</h3>
                 <p><em>Notebook contains multiple handwriting styles and initials, suggesting shared maintenance among project staff.</em></p>
 

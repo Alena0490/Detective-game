@@ -17,7 +17,7 @@ function  MedicalReport({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence medical-notes"
+      className="one-evidence medical-notes noir-ca"
       data-state={state}
       data-size="lg"
       tabIndex={0}

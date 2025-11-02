@@ -12,7 +12,7 @@ const SecurityFootageModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal footage-modal card"
+        className="modal footage-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="footage-title"

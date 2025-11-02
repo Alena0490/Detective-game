@@ -27,6 +27,7 @@
     scrollbar-width: thin;
 }
 
+
 .modal-header {
     width: 100%;
     display: flex;
@@ -76,4 +77,11 @@ li {
 
 .capital {
     text-transform: uppercase;
+}
+
+.tear{
+  -webkit-mask: radial-gradient(120% 30% at 50% 0, transparent 55%, #000 56%) top/100% 22px repeat-x, 
+                linear-gradient(#000,#000);
+          mask: radial-gradient(120% 30% at 50% 0, transparent 55%, #000 56%) top/100% 22px repeat-x, 
+                linear-gradient(#000,#000);
 }

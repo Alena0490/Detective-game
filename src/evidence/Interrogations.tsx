@@ -17,7 +17,7 @@ function  Interrogations({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence interrogations"
+      className="one-evidence interrogations noir-ca"
       data-state={state}
       data-size="lg"
       tabIndex={0}

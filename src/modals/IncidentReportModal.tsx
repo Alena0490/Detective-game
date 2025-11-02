@@ -12,7 +12,7 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
         onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
         <article
-            className="modal incident-report-modal card"
+            className="modal incident-report-modal card noir-ca-soft"
             role="dialog"
             aria-modal="true"
             aria-labelledby="incident-report-title"

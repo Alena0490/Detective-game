@@ -12,7 +12,7 @@ const MedicalRecordModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal medical-record-modal card"
+        className="modal medical-record-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="medical-record-title"

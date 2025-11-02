@@ -12,7 +12,7 @@ const SubwayTicketModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal ticket-modal card"
+        className="modal ticket-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="ticket-title"

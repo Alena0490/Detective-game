@@ -17,7 +17,7 @@ function  Watch({ onOpen, state }: Props) {
 
   return (
     <article
-        className="one-evidence watch"
+        className="one-evidence watch noir-ca"
         data-state={state}
         data-size="sm"
         tabIndex={0}

@@ -1,10 +1,9 @@
-
 .game-header {
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
   gap: 1rem 1.25rem;
-  padding: .5rem 0;           /* nechávám tvoje rozměry */
+  padding: .5rem 0;
   position: relative;   
   max-width: 950px;
   margin: calc(var(--header-top) + env(safe-area-inset-top, 0px)) auto 2.5rem;
@@ -15,7 +14,7 @@
 .game-header::after{
   content:"";
   position: absolute;
-  inset: calc(100% - 4px) 0 auto 0;       /* těsně pod header */
+  inset: calc(100% - 4px) 0 auto 0;
   height: 100px;
   pointer-events: none;
   background:
@@ -26,7 +25,7 @@
 }
 
 .game-header h1{
-  letter-spacing: .02em;                  /* méně „nafouklé“ */
+  letter-spacing: .02em;
   line-height: 1.1;
   text-shadow: 0 2px 0 rgba(0,0,0,.35);   /* měkký noir stín */
   margin: .25rem 0 0;
@@ -38,18 +37,18 @@
 }
 
 .game-main h2 {
-  margin-top: 0;           /* odstraní mezeru po headeru */
-  margin-bottom: 0.75rem;  /* těsněji k evidenci */
+  margin: 0 0.5rem 0.75rem;
   color: var(--color-text-muted); /* jemnější tón, není to druhý titulek */
   font-size: var(--fs-lg);
   letter-spacing: 0.03em;
   text-transform: uppercase;
+  text-shadow: 0 1px 0 rgba(0,0,0,.4);
+  filter: contrast(1.05) brightness(1.02);
 }
 
 .game-header .progress-wrap{
   justify-self: end;
 }
-
 
 /* BASE */
 progress {
@@ -58,7 +57,7 @@ progress {
   -moz-appearance: none;
 
   display: block;
-  width: 180px;                     /* nechávám, jak máš */
+  width: 180px;
   margin: 0;
   padding: var(--space-1);
   padding-bottom: var(--space-01);
@@ -67,8 +66,8 @@ progress {
   border-radius: var(--radius-pill);
   box-shadow: inset 0 1px 1px rgba(0,0,0,0.5),
               0 1px 0 rgba(255,255,255,0.2);
-  height: var(--space-4);           /* sjednocená výška i mimo WebKit */
-  overflow: hidden;                 /* zajistí čisté zaoblení výplně */
+  height: var(--space-4);
+  overflow: hidden;
 }
 
 progress::-moz-progress-bar:hover {
@@ -148,10 +147,6 @@ progress:focus-visible {
 .game-main {
   max-width: 960px;
   margin: 0 auto;
-}
-
-.game-main h2 {
-  margin: 0.5rem 0.5rem 1rem;
 }
 
 @media (prefers-reduced-motion: reduce) {

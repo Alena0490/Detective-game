@@ -20,7 +20,22 @@
     --color-accent: #D4A017;         /* zlatý akcent – lampy, whisky, světla */
     --color-danger: #7C1D18;         /* krvavě červená – výstrahy, napětí */
     --color-success: #3C7A5B;        /* vyvážený zelený tón pro potvrzení */
+    --color-success-15: #3C7A5B15; 
     --color-warning: #E0B050;        /* teplejší odstín výstrahy */
+
+    /* ⚗️ NOIR MIX */
+    --ca-red:  color-mix(in srgb, #FF2828 55%, var(--color-danger) 45%);
+    --ca-blue: color-mix(in srgb, #28B4FF 55%, var(--color-secondary-light) 45%);
+    --ca-alpha: .24; 
+    --ca-alpha-hover: .32;
+
+  /* fallback RGB  */
+  --ca-red-rgb: 196, 35, 33;   /* mix #FF2828 + #7C1D18 ≈ rgb(196,35,33) */
+  --ca-blue-rgb: 55, 155, 206; /* mix #28B4FF + #497D91 ≈ rgb(55,155,206) */
+
+  /* jednotná intenzita pro CA efekt */
+  --ca-alpha: .24;
+  --ca-alpha-hover: .32;
 
     /* 🔎 Transparent variants (RGBA) */
     --alpha-02: 0.02; --alpha-04: 0.04; --alpha-08: 0.08;
@@ -34,6 +49,7 @@
     --bg-80: rgba(15,14,14,0.80);     /* overlay */
     --ink-64: rgba(18,18,18,0.64);    /* shadows */
     --paper-92: rgba(231,216,195,0.92); /* „glass/paper“ panel */
+    --paper-62: rgba(231,216,195,0.30);
 
     /* 🪞 Neutral colors */
     --color-gray-100: #F1ECE5;  
@@ -66,9 +82,9 @@
     --fs-sm: clamp(0.875rem, 0.82rem + 0.3vw, 1rem);
     --fs-md: clamp(1rem, 0.95rem + 0.4vw, 1.125rem);   /* default body */
     --fs-lg: clamp(1.125rem, 1rem + 0.7vw, 1.375rem);
-    --fs-h3: clamp(1.25rem, 1.05rem + 1.2vw, 1.75rem);
-    --fs-h2: clamp(1.5rem, 1.2rem + 1.8vw, 2.25rem);
-    --fs-h1: clamp(2rem, 1.4rem + 3vw, 3.5rem);
+    --fs-h3: clamp(1.125rem, 1.2vw + 0.6rem, 1.45rem);
+    --fs-h2: clamp(1.35rem, 1.6vw + 0.8rem, 1.75rem);
+    --fs-h1: clamp(1.9rem, 2.4vw + 1rem, 2.8rem);
 
     /* Line height */
     --lh-tight: 1.15;
@@ -93,9 +109,17 @@
     --shadow-md: 0 6px 18px rgba(0,0,0,0.35), 0 1px 0 rgba(212,160,23,0.08);
     --shadow-hard: 0 14px 32px rgba(0,0,0,0.5);
 
+    --shadow-soft-light: 0 2px 8px var(--paper-62);
+    --shadow-md-light: 0 6px 18px var(--paper-62), 0 1px 0 var(--color-paper);
+    --shadow-hard-light: 0 14px 32px var(--paper-62);
+
     --drop-shadow-soft: 1px 2px 3px rgba(0,0,0,0.25);
     --drop-shadow-md: 3px 6px 9px rgba(0,0,0,0.35);
     --drop-shadow-hard: 6px 12px 18px rgba(0,0,0,0.5);
+
+    --drop-shadow-soft-light: 1px 2px 3px var(--paper-62);
+    --drop-shadow-md-light: 3px 6px 9px var(--paper-62);
+    --drop-shadow-hard-light: 6px 12px 18px var(--paper-62);
 
     /* ✨ Effects „glass/paper“*/
     --glass-tint: rgba(231,216,195,0.08);   /* z teplého papíru */
@@ -165,32 +189,42 @@ body::after{
 
 h1 {
   font-family: var(--font-typewriter-rough);
+  font-size: var(--fs-h1);
+  color: var(--color-primary);
   font-weight: 700;
-  font-size: clamp(1.8rem, 2.2vw + 1.1rem, 2.8rem);
-  color: var(--color-primary);         /* stejná paleta jako h2 */
-  letter-spacing: 0.02em;
+  text-transform: uppercase;
 }
 
 h2 {
-  font-family: var(--font-typewriter-clean);
-  font-weight: 400;
-  font-size: clamp(1.1rem, 1.5vw + 0.6rem, 1.6rem);
-  color: var(--color-primary-dark);
-  letter-spacing: 0.04em;
-  margin-top: 0.25rem;
+    font-family: var(--font-typewriter-clean);
+    font-size: var(--fs-h2);
+    color: var(--color-secondary-light);
+    font-weight: 600;
+    letter-spacing: 0.05em;
+    margin-top: var(--space-4);
+    margin-bottom: var(--space-3);
 }
 
 h3 {
-    font-size: var(--fs-lg); 
-    line-height: var(--lh-tight);
-    font-family: var(--font-typewriter-clean); 
-    margin-bottom: var(--space-1);
+  font-family: var(--font-typewriter-clean);
+  font-size: var(--fs-h3);
+  color: var(--color-text);
+  font-weight: 600;
 }
+
 
 small { 
     font-size: var(--fs-xs); 
     color: var(--color-text-muted); 
 }
+
+.one-evidence:focus-visible,
+.button:focus-visible,
+a:focus-visible {
+  outline: var(--outline-focus);
+  outline-offset: 4px;
+}
+
 
 .ink {
     color: var(--color-ink);
@@ -288,12 +322,25 @@ small {
   60%      { opacity:1; filter:none }
 }
 
-.noir-ca{
-  filter: drop-shadow(0 0 0 rgba(255,40,40,.12))
-          drop-shadow(0 0 0 rgba(40,180,255,.14));
+/* jemná CA linka na obě strany */
+.noir-ca {
+  filter:
+    drop-shadow(1px 0 0 rgba(var(--ca-red-rgb), var(--ca-alpha)))      /* “červená” doprava */
+    drop-shadow(-1px 0 0 rgba(var(--ca-blue-rgb), var(--ca-alpha)));   /* “modrá/teal” doleva */
 }
-.noir-ca:hover{ filter: drop-shadow(0 0 0 rgba(255,40,40,.16))
-                        drop-shadow(0 0 0 rgba(40,180,255,.18)); }
+
+.noir-ca:hover {
+  filter:
+    drop-shadow(1.5px 0 0 rgba(var(--ca-red-rgb), var(--ca-alpha-hover)))
+    drop-shadow(-1.5px 0 0 rgba(var(--ca-blue-rgb), var(--ca-alpha-hover)));
+}
+
+/* měkčí okraj (lehké rozostření) */
+.noir-ca-soft {
+  filter:
+    drop-shadow(0.5px 0 1px rgba(var(--ca-red-rgb), var(--ca-alpha)))
+    drop-shadow(-0.5px 0 1px rgba(var(--ca-blue-rgb), var(--ca-alpha)));
+}
 
 .sweep{
   position: relative; overflow:hidden;
@@ -310,6 +357,7 @@ small {
 .crt{
   position: relative; isolation:isolate;
 }
+
 .crt::before{
   content:""; position:absolute; inset:0; pointer-events:none;
   background:
@@ -318,6 +366,7 @@ small {
   mix-blend-mode: overlay;
   opacity:.7;
 }
+
 .crt::after{
   content:"REC 03:12"; position:absolute; top:.5rem; right:.75rem;
   font: 600 .75rem/1 var(--font-typewriter-clean);
@@ -331,6 +380,7 @@ small {
   filter: contrast(1.05) saturate(.95);
   animation: stampIn .5s var(--ease-out) forwards;
 }
+
 @keyframes stampIn{
   0%{ transform: scale(.8) rotate(-6deg); opacity:0 }
   60%{ transform: scale(1.03) rotate(-2deg); opacity:1 }

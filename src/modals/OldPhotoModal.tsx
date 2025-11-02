@@ -12,7 +12,7 @@ const OldPhotoModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal photo-modal card"
+        className="modal photo-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="photo-title"

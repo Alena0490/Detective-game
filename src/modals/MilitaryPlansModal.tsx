@@ -12,7 +12,7 @@ const MilitaryPlansModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal map-modal card"
+        className="modal map-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="map-title"

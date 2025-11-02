@@ -12,7 +12,7 @@ const NewspaperModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal newspaper-modal card"
+        className="modal newspaper-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="newspaper-title"

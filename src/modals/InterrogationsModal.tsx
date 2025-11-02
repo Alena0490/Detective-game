@@ -12,7 +12,7 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal interrogations-modal card"
+        className="modal interrogations-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="interrogations-title"

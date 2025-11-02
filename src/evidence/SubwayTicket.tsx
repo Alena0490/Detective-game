@@ -17,7 +17,7 @@ function  SubwayTicket({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence ticket"
+      className="one-evidence ticket noir-ca"
       data-state={state}
       data-size="sm"
       tabIndex={0}

@@ -12,7 +12,7 @@ const WatchModal = ({ open, onClose }: ModalProps) => {
       onMouseDown={(e) => { if (e.target === e.currentTarget) onClose(); }}
     >
       <article
-        className="modal watch-modal card"
+        className="modal watch-modal card noir-ca-soft"
         role="dialog"
         aria-modal="true"
         aria-labelledby="watch-title"

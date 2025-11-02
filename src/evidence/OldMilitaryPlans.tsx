@@ -17,7 +17,7 @@ function  OldMilitaryPlans({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence old-map"
+      className="one-evidence old-map noir-ca"
       data-state={state}
       data-size="lg"
       tabIndex={0}

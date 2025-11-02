@@ -17,7 +17,7 @@ function  OldPhoto({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence old-photo"
+      className="one-evidence old-photo noir-ca"
       data-state={state}
       data-size="sm"
       tabIndex={0}

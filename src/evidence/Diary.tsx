@@ -17,7 +17,7 @@ function  Diary({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence notebook"
+      className="one-evidence notebook noir-ca"
       data-state={state}
       tabIndex={0}
       role="button"
