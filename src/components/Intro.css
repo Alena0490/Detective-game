@@ -1,23 +1,228 @@
-/* Základní typewriter styl */
-.typewriter-container {
-  padding: var(--space-6);
-  border-radius: var(--radius-lg);
+/* ═══════════════════════════════════════════════════════════
+   INTRO SCREEN - Noir detective briefing
+   ═══════════════════════════════════════════════════════════ */
+
+:root{
+  --rule: clamp(24px, 2.2vh, 30px); /* rozteč linek papíru */
 }
 
+
+a:focus-visible,
+button:focus-visible,
+.cta-button:focus-visible{
+  outline: var(--outline-focus);
+  outline-offset: .25rem;
+}
+
+.intro {
+  min-block-size: 100svh;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+  position: relative;
+  z-index: 2;
+}
+
+
+.intro::before{
+  background: radial-gradient(120% 95% at 50% 14%, transparent 54%, rgba(0,0,0,.55) 92%);
+}
+
+.intro::after{
+  opacity: .18;           
+  animation: grainShift 8s steps(6) infinite;
+}
+
+/* Papír s případem - FIXNÍ VELIKOST */
+.intro-paper { 
+  position: relative; 
+  width: 80vw; 
+  max-width: 950px; 
+  height: 70svh; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  background: 
+    linear-gradient(transparent 0, rgba(0,0,0,.06) 2px, transparent 2px) top left/100% 28px no-repeat, color-mix(in oklab, var(--color-paper) 90%, #000 10%); color: var(--color-ink); border-radius: var(--radius-md); 
+  box-shadow: 0 10px 30px rgba(0,0,0,.45), inset 0 0 0 1px rgba(0,0,0,.12), inset 0 0 40px rgba(0,0,0,.10); 
+  padding: var(--space-8) clamp(.875rem, 1vw + .5rem, 1.25rem); 
+}
+
+.intro-paper.dense { 
+  --rule: clamp(18px, 1.6vh, 24px); 
+}
+
+.typewriter-container { 
+  width: 100%; 
+  display: flex; 
+  justify-content: flex-start; 
+  align-items: flex-start; flex: 1;
+  /* margin-bottom: var(--space-6); overflow: hidden; */
+}
+
+/* Text na psacím stroji */
 .typewriter-text {
-  line-height: 1.6;
-  min-height: 1.5em; /* Zabráníš skákání */
+  font-family: var(--font-typewriter-clean);
+  font-size: var(--fs-lg);
+  line-height: var(--lh-normal);
+  color: var(--color-ink);
+  letter-spacing: 0.02em;
+  word-spacing: 0.15em;
+  text-shadow: 0.5px 0.5px 0 rgba(0, 0, 0, 0.08);
+  white-space: pre-wrap;
+  word-wrap: break-word;
 }
 
-/* Blikající kurzor */
+/* Kurzor */
 .cursor {
-  color: #2c3e50;
-  animation: blink 0.8s step-end infinite;
+  color: var(--color-ink);
+  font-weight: 600;
+  transform: translateY(0.05em); 
+  animation: cursorBlink .9s step-end infinite;
   font-weight: bold;
-  margin-left: 2px;
+  margin-left: 0.125rem;
 }
 
-@keyframes blink {
+@keyframes cursorBlink {
   0%, 50% { opacity: 1; }
   51%, 100% { opacity: 0; }
+}
+
+/* Tlačítko */
+.cta-button{
+  padding: var(--space-3) var(--space-6);
+  font-family: var(--font-typewriter-clean);
+  font-size: var(--fs-md);
+  font-weight: 600;
+  color: var(--color-text);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  background-image: 
+  linear-gradient( to right, var(--color-metal),var(--color-wood)); 
+  border: none; 
+  border-radius: var(--radius-sm); 
+  cursor: pointer;
+
+  transition: 
+    transform var(--dur) var(--ease-out), 
+    background var(--dur) var(--ease-out), 
+    box-shadow var(--dur) var(--ease-out);         
+  margin-top: var(--space-3);
+  min-inline-size: 12ch;         
+}
+
+/* Pop-in animace */
+.cta-button.pop-in {
+  animation: popIn 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55) both;
+}
+
+/* Jednořádkový „typewriter“ */
+.tw-reveal{
+  overflow:hidden; white-space:nowrap;
+  border-right:.08em solid currentColor;
+  animation: twType 1.6s steps(24,end) var(--tw-delay,0ms) both, twCaret 750ms step-end infinite;
+}
+
+@keyframes twType{ from{ width:0 } to{ width:100% } }
+@keyframes twCaret{ 50%{ border-color:transparent } }
+
+/* Více řádků: jemný „fade-in“ s posunem (pro odstavce/lists) */
+.fade-stagger > *{
+  opacity:0; transform: translateY(4px);
+  animation: fadeUp 1s var(--ease-out) forwards;
+  animation-delay: calc(80ms * var(--i, 0));
+}
+@keyframes fadeUp{ to{ opacity:1; transform:none } }
+
+.flicker-soft{
+  text-shadow: 0 0 .15em rgba(212,160,23,.25);
+  animation: flicker 2.8s linear infinite;
+}
+@keyframes flicker{
+  0%, 100% { opacity:1; filter:none }
+  8%       { opacity:.96 }
+  12%      { opacity:.85; filter:brightness(1.05) }
+  13%      { opacity:.98 }
+  22%      { opacity:.9 }
+  55%      { opacity:.97 }
+  57%      { opacity:.8; filter:brightness(1.08) }
+  60%      { opacity:1; filter:none }
+}
+
+
+@keyframes popIn {
+  0% {
+    opacity: 0;
+    transform: translateY(1.25rem) scale(0.9);
+  }
+  50% {
+    transform: translateY(-0.3125rem) scale(1.05);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+/* Hover efekt */
+.cta-button:hover{
+  background-image: linear-gradient(to right, var(--color-wood), var(--color-metal));
+  transform: translateY(-0.125rem) scale(1.02);
+  box-shadow: var(--shadow-hard), 0 0 0 1px var(--glass-stroke) inset;
+}
+
+
+/* Active/Click efekt */
+.cta-button:active {
+  transform: translateY(0) scale(0.98);
+  box-shadow: var(--shadow-soft);
+}
+
+/* Focus */
+.cta-button:focus-visible {
+  outline: var(--outline-focus);
+  outline-offset: 0.25rem;
+}
+
+@media (prefers-reduced-motion: reduce){
+  * { animation: none !important; transition: none !important; }
+  .cursor { opacity: 1 !important; }
+}
+
+/* Responsivita - zmenšení na menších obrazovkách */
+
+@media (min-width: 900px){
+  .intro-paper{ 
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (max-width: 860px) {
+  .intro-paper {
+    width: 90vw;
+    min-height: 28rem;
+  }
+}
+
+@media (max-width: 768px){
+  .intro{ padding: var(--space-3); }
+  .intro-paper{
+    inline-size: 92vw;
+    min-block-size: 22rem;
+    padding: var(--space-8) var(--space-6);
+  }
+}
+
+@media (max-width: 480px){
+  .intro-paper{
+    inline-size: 95vw;
+    min-block-size: 19rem;
+    padding: var(--space-4) var(--space-3);
+  }
+}
+
+@media (max-width: 350px) {
+  .cta-button {
+    animation: none;
+  }
 }

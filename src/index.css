@@ -386,3 +386,24 @@ a:focus-visible {
   60%{ transform: scale(1.03) rotate(-2deg); opacity:1 }
   100%{ transform: scale(.98) rotate(-1.5deg) }
 }
+
+/* SCREEN FADE ***/
+.app-container {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.screen-fade {
+  animation: fadeIn 0.5s ease-in;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
