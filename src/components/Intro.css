@@ -2,11 +2,6 @@
    INTRO SCREEN - Noir detective briefing
    ═══════════════════════════════════════════════════════════ */
 
-:root{
-  --rule: clamp(24px, 2.2vh, 30px); /* rozteč linek papíru */
-}
-
-
 a:focus-visible,
 button:focus-visible,
 .cta-button:focus-visible{
@@ -125,14 +120,6 @@ button:focus-visible,
 
 @keyframes twType{ from{ width:0 } to{ width:100% } }
 @keyframes twCaret{ 50%{ border-color:transparent } }
-
-/* Více řádků: jemný „fade-in“ s posunem (pro odstavce/lists) */
-.fade-stagger > *{
-  opacity:0; transform: translateY(4px);
-  animation: fadeUp 1s var(--ease-out) forwards;
-  animation-delay: calc(80ms * var(--i, 0));
-}
-@keyframes fadeUp{ to{ opacity:1; transform:none } }
 
 .flicker-soft{
   text-shadow: 0 0 .15em rgba(212,160,23,.25);

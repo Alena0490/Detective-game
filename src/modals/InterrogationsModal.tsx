@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const InterrogationsModal = ({ open, onClose }: ModalProps) => {
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const InterrogationsModal = ({  
+  open,
+  onClose,
+  onEvidenceComplete,
+  onClueFound,
+}: ModalProps) => {
+  const [foundCount, setFoundCount] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
   if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -37,7 +68,7 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
 
                 <p>
                     I was on the night shift at <strong>Vltavska</strong> station.<br />
-                    Shortly after two o'clock I felt a tremor under my feet — not like a passing train. The sound came <strong>from beneath the tunnel</strong>.<br />
+                    Shortly after two o'clock I felt a tremor under my feet — not like a passing train. The sound came <Clue onFound={handleClueFound}><strong>from beneath the tunnel</strong></Clue>.<br />
                     The floor seams flashed — a <strong>blinding white light</strong> rose from below and lit the whole service corridor.<br />
                     A deep rumble followed, then a sharp crack and everything went dark. The warning panel showed an <strong>electrical surge over four times normal</strong> right before the system collapsed into a full <strong>power failure</strong>.<br />
                     The air smelled of <strong>ozone and burnt metal</strong>.<br />
@@ -54,9 +85,9 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
                 <p><em>Statement recorded 31 Oct 2025 / 09:40 CET — General University Hospital, Prague</em></p>
                 <p>Subject remains <strong>disoriented</strong> but cooperative.</p>  
         
-                <p>Mentions involvement in a <strong>“field stabilization project”</strong> and repeatedly refers to <strong>“transit phase alignment”</strong> and a <strong>“test run”</strong> that was “about to begin.”</p>  
+                <p>Mentions involvement in a <strong>“field stabilization project”</strong> and repeatedly refers to <strong>“transit phase alignment”</strong> and a <Clue onFound={handleClueFound}><strong>“test run”</strong></Clue> that was “about to begin.”</p>  
                 <p>Appears <strong>confused by present-day technology</strong> and asked whether “<strong>the experiment succeeded</strong>.”  
-                When informed of the current year, he expressed disbelief and insisted the date was “<strong>October 1955</strong>.”  
+                When informed of the current year, he expressed disbelief and insisted the date was “<strong><Clue onFound={handleClueFound}>October 1955</Clue></strong>.”  
                 Interview suspended after onset of acute stress reaction.</p>
 
                 <br/>
@@ -66,7 +97,7 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
                 <h3>Witness Statement #3 — Anna Blahova (Local Resident, 89)</h3>
                 <p><em>Statement recorded 2 Nov 2025 / 14:05 CET</em></p>
                 <p>Resident of Bubny district since birth. Remembers the area “<strong>changing overnight</strong>” in the 1950s when construction crews “<strong>blocked off the street and worked through the night</strong>.”  
-                For many years afterward, she would sometimes hear <strong>a deep, distant rumbling underground</strong>, especially at night, “like heavy trains passing somewhere below.” </p> 
+                For many years afterward, she would sometimes hear <strong>a deep, distant rumbling underground</strong>, especially at night, <Clue onFound={handleClueFound}>“like heavy trains passing somewhere below.”</Clue> </p> 
                 <p>She recalls that about <strong>twenty or thirty years ago</strong> the sounds stopped completely, and the ground had been silent ever since.</p> 
                 <p>During <strong>the night of 29 Oct 2025</strong> she couldn't sleep and observed a <strong>brief flash of light</strong> from the same direction.  
                 Ends her statement saying: “They thought it was gone, but <strong>some doors never stay closed</strong>.”</p>
@@ -77,6 +108,10 @@ const InterrogationsModal = ({ open, onClose }: ModalProps) => {
                 Statements from the <strong>technician</strong> and <strong>local resident</strong> reference unregistered underground activity beneath the Vltavská sector.  
                 The unidentified male’s statement partially aligns with recovered documents from 1955 but remains <strong>inconclusive</strong> due to his mental condition.</p>
             </article>
+              <p className="clue-status">
+                Clues: {foundCount} / {TOTAL_CLUES}
+                {isCompleted && " — Evidence completed."}
+              </p>
         </section>
       </article>
     </div>

@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const SubwayTicketModal = ({ open, onClose }: ModalProps) => {
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const SubwayTicketModal = ({ 
+  open,
+  onClose,
+  onEvidenceComplete,
+  onClueFound,
+}: ModalProps) => { 
+  const [foundCount, setFoundCount] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
   if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -31,16 +62,20 @@ const SubwayTicketModal = ({ open, onClose }: ModalProps) => {
                 <p className="capital">LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
                 <br/>
                 <h3>Description:</h3>
-                <p>Paper fare ticket, mid-20th-century format.<br />
+                <p>Paper fare ticket, <Clue onFound={handleClueFound}>mid-20th-century</Clue> format.<br />
                 Non-standard substrate; faint embedded lattice visible under oblique light.<br />
-                Line: <strong>“Line-0”</strong> — <em>unofficial / non-public; no&nbsp;record in&nbsp;municipal transit registry</em>.<br />
+                Line: <Clue onFound={handleClueFound}><strong>“Line-0”</strong></Clue> — <em>unofficial / non-public; <Clue onFound={handleClueFound}>no&nbsp;record in&nbsp;municipal transit registry</Clue></em>.<br />
                 Serial: <strong className="capital">[REDACTED]</strong>.</p>
 
                 <p><strong>Remarks:</strong></p>
-                <p>Slight thermal discoloration; no&nbsp;charring or&nbsp;tearing observed.<br />
+                <p>Slight thermal discoloration; <Clue onFound={handleClueFound}>no&nbsp;charring or&nbsp;tearing observed</Clue>.<br />
                 Ticket type discontinued; issuing authority not active / undocumented.</p>
             </article>
-            </section>
+              <p className="clue-status">
+                Clues: {foundCount} / {TOTAL_CLUES}
+                {isCompleted && " — Evidence completed."}
+            </p>
+        </section>
       </article>
     </div>
   );

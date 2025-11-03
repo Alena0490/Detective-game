@@ -1,0 +1,22 @@
+.clue-word {
+  border: none;
+  padding: 0;
+  margin: 0;
+  background: none;
+  font: inherit;
+  color: inherit;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+/* při hoveru se teprve “projeví” */
+.clue-word:hover,
+.clue-word:focus-visible {
+  color: var(--color-accent);
+  text-decoration: underline;
+}
+
+/* volitelné – po nalezení může být třeba přeškrtnutá / jinak ztlumená */
+.clue-word--found {
+  color: var(--color-muted, rgba(233, 230, 225, 0.7));
+}

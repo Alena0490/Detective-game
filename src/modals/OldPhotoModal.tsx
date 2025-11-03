@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const OldPhotoModal = ({ open, onClose }: ModalProps) => {
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const OldPhotoModal = ({ 
+  open,
+  onClose,
+  onEvidenceComplete,
+  onClueFound,
+}: ModalProps) => {
+  const [foundCount, setFoundCount] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);  
   if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -35,13 +66,17 @@ const OldPhotoModal = ({ open, onClose }: ModalProps) => {
                 <h3>Photograph — Dr. Antonin Richter (circa 1955)</h3>
                 <p>Black-and-white <strong>portrait photograph</strong>, approx. 3.5 × 5 cm, printed on matte paper.  
                 Depicts a man in a <strong>formal suit and tie</strong>, facing forward in neutral lighting — consistent with <strong>identification or personnel documentation</strong>.  
-                Below the image, a handwritten note reads: <strong>“Dr. Antonin Richter.”</strong>  
+                Below the image, a handwritten note reads: <Clue onFound={handleClueFound}><strong>“Dr. Antonin Richter.”</strong></Clue>  
                 Reverse side blank; no institutional markings or stamps.</p>
                 <br/>
-                <p><strong>Police note:</strong> Facial recognition confirms a <strong>92 % match</strong> with the unidentified male recovered on <strong>29 Oct 2025</strong> and the figure observed on <strong>Metro Camera 07</strong>.  
-                No record of any <strong>Dr. Antonin Richter</strong> appears in current academic, medical, or military registries.  
+                <p><strong>Police note:</strong> Facial recognition confirms <Clue onFound={handleClueFound}>a <strong>92 % match</strong></Clue> with the unidentified male recovered on <strong>29 Oct 2025</strong> and the figure observed on <Clue onFound={handleClueFound}><strong>Metro Camera 07</strong></Clue>.  
+                <Clue onFound={handleClueFound}>No record of any <strong>Dr. Antonin Richter</strong></Clue> appears in current academic, medical, or military registries.  
                 Document authenticity remains under forensic review.</p>
-                </article>
+            </article>
+              <p className="clue-status">
+                Clues: {foundCount} / {TOTAL_CLUES}
+                {isCompleted && " — Evidence completed."}
+            </p>
         </section>
       </article>
     </div>

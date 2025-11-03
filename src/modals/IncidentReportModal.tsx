@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const IncidentReportModal = ({ open, onClose }: ModalProps) => {
-  if (!open) return null;
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const IncidentReportModal = ({ 
+    open,
+    onClose,
+    onEvidenceComplete,
+    onClueFound,
+}: ModalProps) => {
+    const [foundCount, setFoundCount] = useState(0);
+    const [isCompleted, setIsCompleted] = useState(false);  
+    if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -48,9 +79,9 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                         <section>
                             <h3>Incident Summary</h3>
                             <p>
-                            At <strong>02:08 AM</strong> an unexpected <strong>energy surge</strong> affected
+                            At <Clue onFound={handleClueFound}><strong>02:08 AM</strong></Clue> an unexpected <strong>energy surge</strong> affected
                             underground power lines near <strong>Line C</strong>. The event caused several
-                            <strong> circuit failures</strong> and a brief fire in a maintenance corridor.
+                            <Clue onFound={handleClueFound}><strong> circuit failures</strong></Clue> and a brief fire in a maintenance corridor.
                             Power was rerouted to <strong>backup systems</strong> while traction power
                             remained <strong>offline</strong>.
                             </p>
@@ -71,7 +102,7 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                             <h3>Preliminary Findings</h3>
                             <ul>
                             <li>Overload originated from <strong>legacy wiring</strong> disconnected decades ago.</li>
-                            <li>Voltage spike exceeded <strong>400&nbsp;%</strong> of&nbsp;normal range.</li>
+                            <li>Voltage <Clue onFound={handleClueFound}>spike exceeded <strong>400&nbsp;%</strong></Clue> of&nbsp;normal range.</li>
                             <li>Residual <strong>electromagnetic fluctuation</strong> lasted several minutes.</li>
                             <li>Technicians noted a&nbsp;<strong>metallic odor</strong> near a&nbsp;<strong>sealed wall</strong>.</li>
                             </ul>
@@ -91,7 +122,7 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                             <p>
                             <strong>Technician’s Note:</strong> “The surge didn’t behave like a&nbsp;typical short circuit.<br />
                 It appeared and vanished almost instantly; readings went completely off-scale.<br />
-                The&nbsp;pattern doesn’t match <strong>any known electrical failure.</strong>”
+                The&nbsp;pattern doesn’t match <Clue onFound={handleClueFound}><strong>any known electrical failure.</strong>”</Clue>
 
                             </p>
                         </section>
@@ -104,7 +135,11 @@ const IncidentReportModal = ({ open, onClose }: ModalProps) => {
                             <p><strong>M. Hanak</strong><br /><small className="ink">Senior Facility Engineer</small><br />Approved: 05:22&nbsp;CET</p>
                             </div>
                         </section>
-                    </article>      
+                    </article>  
+                        <p className="clue-status">
+                            Clues: {foundCount} / {TOTAL_CLUES}
+                            {isCompleted && " — Evidence completed."}
+                        </p>    
                 </section>
             </div>  
         </article>

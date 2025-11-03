@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const WatchModal = ({ open, onClose }: ModalProps) => {
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const WatchModal = ({   
+  open,
+  onClose,
+  onEvidenceComplete,
+  onClueFound,
+}: ModalProps) => { 
+  const [foundCount, setFoundCount] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
   if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -31,15 +62,19 @@ const WatchModal = ({ open, onClose }: ModalProps) => {
                 <p className="capital">LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
                 <br/>
                 <p><strong>Description:</strong></p>
-                <p>Silver mechanical wristwatch of mid-20th-century design.<br />
+                <p>Silver mechanical wristwatch of <Clue onFound={handleClueFound}>mid-20th-century design</Clue>.<br />
                 Movement intact but non-functional.<br />
-                Hands stopped precisely at&nbsp;<strong>02:08</strong>.</p>
+                Hands <Clue onFound={handleClueFound}>stopped precisely at&nbsp;<strong>02:08</strong></Clue>.</p>
 
                 <p><strong>Remarks:</strong></p>
-                <p>Item shows no signs of&nbsp;impact or&nbsp;external damage.<br />
-                Model discontinued in&nbsp;the&nbsp;1950s — <strong>manufacturer no&nbsp;longer active</strong>.</p>
+                <p>Item shows no signs of&nbsp;<Clue onFound={handleClueFound}>impact or&nbsp;external damage</Clue>.<br />
+                Model discontinued in&nbsp;the&nbsp;1950s — <Clue onFound={handleClueFound}><strong>manufacturer no&nbsp;longer active</strong></Clue>.</p>
             </article>
-            </section>
+              <p className="clue-status">
+                Clues: {foundCount} / {TOTAL_CLUES}
+                {isCompleted && " — Evidence completed."}
+              </p>
+          </section>
       </article>
     </div>
   );

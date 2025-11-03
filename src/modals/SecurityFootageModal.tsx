@@ -1,9 +1,40 @@
 import "./Modal.css";
+import { useState } from "react";
+import Clue from "../components/Clue";
 
-type ModalProps = { open: boolean; onClose: () => void };
+type ModalProps = {
+  open: boolean;
+  onClose: () => void;
+  onEvidenceComplete?: () => void;
+  onClueFound?: () => void;
+};
 
-const SecurityFootageModal = ({ open, onClose }: ModalProps) => {
+const TOTAL_CLUES = 4; // kolik clue slov v tomhle reportu máš
+
+const SecurityFootageModal = ({ 
+  open,
+  onClose,
+  onEvidenceComplete,
+  onClueFound,
+}: ModalProps) => {
+  const [foundCount, setFoundCount] = useState(0);
+  const [isCompleted, setIsCompleted] = useState(false);
   if (!open) return null;
+
+  const handleClueFound = () => {
+    setFoundCount(prev => {
+      const next = prev + 1;
+
+      // globální hláška
+      onClueFound?.();
+
+      if (next === TOTAL_CLUES && !isCompleted) {
+        setIsCompleted(true);
+        onEvidenceComplete?.();
+      }
+      return next;
+    });
+  };
 
   return (
     <div
@@ -38,12 +69,16 @@ const SecurityFootageModal = ({ open, onClose }: ModalProps) => {
                 <p>TIME: 03:00-03:30</p>
 
                 <p><strong>Notes:</strong></p>
-                <p>[03:12] SUBJECT OBSERVED EXITING LINE&nbsp;C SERVICE TUNNEL.<br />
-                SUBJECT LOOKS TOWARD CAMERA — APPEARS DISORIENTED.<br />
-                PROCEEDS NORTH TOWARD VLTAVSKÁ STATION.</p>
+                <p>[03:12] SUBJECT OBSERVED EXITING <Clue onFound={handleClueFound}>LINE&nbsp;C SERVICE TUNNEL</Clue>.<br />
+                SUBJECT LOOKS TOWARD CAMERA — <Clue onFound={handleClueFound}>APPEARS DISORIENTED</Clue>.<br />
+                PROCEEDS NORTH TOWARD <Clue onFound={handleClueFound}>VLTAVSKÁ STATION</Clue>.</p>
 
-                <p>TRACK SECTION CONFIRMED <strong>DE-ENERGIZED</strong> AT TIME OF&nbsp;RECORDING.</p>
+                <p>TRACK SECTION CONFIRMED <Clue onFound={handleClueFound}><strong>DE-ENERGIZED</strong></Clue> AT TIME OF&nbsp;RECORDING.</p>
             </article>
+              <p className="clue-status">
+                Clues: {foundCount} / {TOTAL_CLUES}
+                {isCompleted && " — Evidence completed."}
+              </p>
         </section>
       </article>
     </div>
