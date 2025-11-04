@@ -1,42 +1,43 @@
 import "./Modal.css";
-import { useState } from "react";
 import Clue from "../components/Clue";
 
+/**
+ * ModalProps
+ * - open: controls visibility of the modal
+ * - onClose: closes the modal
+ * - onEvidenceComplete: reserved for later (questions below the text)
+ * - onClueFound: called when a single clue word is found
+ * - cluesFound: how many clues for this evidence have been found so far
+ */
 type ModalProps = {
   open: boolean;
   onClose: () => void;
   onEvidenceComplete?: () => void;
   onClueFound?: () => void;
+  cluesFound: number;
 };
 
+/** Number of clue words inside this evidence text */
 const TOTAL_CLUES = 4; // retrograde amnesia, Küntscher nail, amalgam fillings, phenylmercuric compounds
 
+/**
+ * MedicalRecordModal
+ * Evidence modal with a medical report and interactive clue words.
+ * Clues only affect the clue counters in MainGame.
+ * Completing the evidence will be handled later via questions, not via clues.
+ */
 const MedicalRecordModal: React.FC<ModalProps> = ({
   open,
   onClose,
-  onEvidenceComplete,
+  // onEvidenceComplete, // will be used later for solving questions
   onClueFound,
+  cluesFound,
 }) => {
-  const [foundCount, setFoundCount] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  // guard musí být AŽ po hookách
   if (!open) return null;
 
+  /** Called when the player finds a clue word */
   const handleClueFound = () => {
-    setFoundCount((prev) => {
-      const next = prev + 1;
-
-      // globální hláška do MainGame (Clue found)
-      onClueFound?.();
-
-      if (next === TOTAL_CLUES && !isCompleted) {
-        setIsCompleted(true);
-        onEvidenceComplete?.();
-      }
-
-      return next;
-    });
+    onClueFound?.();
   };
 
   return (
@@ -63,6 +64,7 @@ const MedicalRecordModal: React.FC<ModalProps> = ({
         </header>
 
         <section className="modal-body">
+          {/* Evidence metadata */}
           <article>
             <h3>EVIDENCE ITEM — MEDICAL REPORT</h3>
             <p>CASE ID: PR-29-10-2025</p>
@@ -75,6 +77,7 @@ const MedicalRecordModal: React.FC<ModalProps> = ({
           <p>---</p>
           <br />
 
+          {/* Evidence content with interactive clues */}
           <article
             className="medical-report fade-stagger evidence-paper"
             aria-label="Medical report"
@@ -130,11 +133,12 @@ const MedicalRecordModal: React.FC<ModalProps> = ({
             <p>
               <em>Signed:</em> MUDr. Tomas Fischer, Chief Physician — 29 Oct 2025, 11:47&nbsp;CET
             </p>
-          </article>
-           <p className="clue-status">
-              Clues: {foundCount} / {TOTAL_CLUES}
-              {isCompleted && " — Evidence completed."}
+
+            {/* Clue counter for this evidence */}
+            <p className="clue-status">
+              Clues: {cluesFound} / {TOTAL_CLUES}
             </p>
+          </article>
         </section>
       </article>
     </div>

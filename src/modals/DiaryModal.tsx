@@ -1,41 +1,42 @@
 import "./Modal.css";
-import { useState } from "react";
 import Clue from "../components/Clue";
 
+/**
+ * ModalProps
+ * - open: controls visibility of the modal
+ * - onClose: closes the modal
+ * - onEvidenceComplete: will be used later for solving questions under the text
+ * - onClueFound: called when a single clue word is found
+ * - cluesFound: how many clues for this evidence have been found so far
+ */
 type ModalProps = {
   open: boolean;
   onClose: () => void;
   onEvidenceComplete?: () => void;
   onClueFound?: () => void;
+  cluesFound: number;
 };
 
-const TOTAL_CLUES = 4; // 4x <Clue> v textu
+/** Number of clue words inside this evidence text */
+const TOTAL_CLUES = 4;
 
+/**
+ * DiaryModal
+ * Evidence modal with interactive clue words.
+ * Clues only affect the clue counters in MainGame,
+ * they do NOT complete the evidence – that will be handled by questions later.
+ */
 const DiaryModal = ({
   open,
   onClose,
-  onEvidenceComplete,
   onClueFound,
+  cluesFound,
 }: ModalProps) => {
-  // 1️⃣ hooky musí být úplně nahoře uvnitř komponenty
-  const [foundCount, setFoundCount] = useState(0);
-  const [isCompleted, setIsCompleted] = useState(false);
-
-  // 2️⃣ guard až po hookách
   if (!open) return null;
 
+  /** Called when the player finds a clue word */
   const handleClueFound = () => {
-    setFoundCount((prev) => {
-      const next = prev + 1;
-
-      onClueFound?.();
-
-      if (next === TOTAL_CLUES && !isCompleted) {
-        setIsCompleted(true);
-        onEvidenceComplete?.();
-      }
-      return next;
-    });
+    onClueFound?.();
   };
 
   return (
@@ -62,6 +63,7 @@ const DiaryModal = ({
         </header>
 
         <section className="modal-body">
+          {/* Evidence metadata */}
           <article>
             <h3>EVIDENCE ITEM — NOTEBOOK</h3>
             <p>CASE ID: PR-29-10-2025</p>
@@ -69,9 +71,12 @@ const DiaryModal = ({
             <p>RECOVERED: 2025-10-29 / 08:12 CET</p>
             <p>LOCATION: PRAGUE CITY CENTER — MALE SUBJECT FOUND DISORIENTED</p>
           </article>
+
           <br />
           <p>---</p>
           <br />
+
+          {/* Evidence content with interactive clues */}
           <article
             aria-label="Diary excerpt"
             className="evidence-paper fade-stagger"
@@ -144,12 +149,12 @@ const DiaryModal = ({
             <p>
               <em>— Last entry ends abruptly. The remaining pages are blank.</em>
             </p>
-          
-          </article>
-           <p className="clue-status">
-              Clues: {foundCount} / {TOTAL_CLUES}
-              {isCompleted && " — Evidence completed."}
+
+            {/* Clue counter for this evidence */}
+            <p className="clue-status">
+              Clues: {cluesFound} / {TOTAL_CLUES}
             </p>
+          </article>
         </section>
       </article>
     </div>

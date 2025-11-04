@@ -1,6 +1,6 @@
 .game-header {
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns: 1fr;
   align-items: center;
   gap: 1rem 1.25rem;
   padding: .5rem 0;
@@ -29,11 +29,27 @@
   line-height: 1.1;
   text-shadow: 0 2px 0 rgba(0,0,0,.35);   /* měkký noir stín */
   margin: .25rem 0 0;
+  text-align: center;
 }
 
 .game-header h2{
   margin: .25rem 0 0;
   letter-spacing: .015em;
+}
+
+.clue-counter {
+  font-size: var(--fs-md);
+  opacity: 0.9;
+  justify-self: flex-end;
+  margin-left: auto;
+}
+
+.clue-message {
+  margin-top: 0.25rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
 }
 
 .game-main h2 {
@@ -47,7 +63,10 @@
 }
 
 .game-header .progress-wrap{
-  justify-self: end;
+  display: flex;
+  justify-content: normal;
+  justify-self: stretch;
+  flex-wrap: wrap;
 }
 
 /* BASE */

@@ -1,5 +1,14 @@
-import "./Maingame.css"
-import { useEffect, useState, lazy, Suspense, useMemo } from "react";
+import "./Maingame.css";
+import {
+  useEffect,
+  useState,
+  lazy,
+  Suspense,
+  useMemo,
+  type CSSProperties,
+  type ReactNode,
+  type FC,
+} from "react";
 
 import OldNewspaper from "../evidence/OldNewspaper";
 import OldMilitaryPlans from "../evidence/OldMilitaryPlans";
@@ -7,65 +16,133 @@ import SubwayTicket from "../evidence/SubwayTicket";
 import SecurityFootage from "../evidence/SecurityFootage";
 import Interrogations from "../evidence/Interrogations";
 import MedicalRecords from "../evidence/MedicalRecors";
-import OldPhoto from "../evidence/OldPhoto"
+import OldPhoto from "../evidence/OldPhoto";
 import Watch from "../evidence/Watch";
 import Diary from "../evidence/Diary";
 import IncidentReport from "../evidence/IncidentReport";
 
 type MainGameProps = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 type ModalKey =
-  | "newspaper" | "militaryPlans" | "ticket" | "security" | "interrogations"
-  | "medical"   | "photo"         | "watch"  | "diary"    | "incident";
+  | "newspaper"
+  | "militaryPlans"
+  | "ticket"
+  | "security"
+  | "interrogations"
+  | "medical"
+  | "photo"
+  | "watch"
+  | "diary"
+  | "incident";
 
 type ModalProps = {
   open: boolean;
   onClose: () => void;
-  /** Zavolá se, když hráč splní všechny clues pro daný důkaz */
   onEvidenceComplete?: () => void;
-  /** Volitelné – můžeš použít pro globální hlášku "clue found" */
   onClueFound?: () => void;
+  cluesFound: number;
 };
 
-const MODALS: Record<ModalKey, React.LazyExoticComponent<React.ComponentType<ModalProps>>> = {
-  newspaper:      lazy(() => import("../modals/NewspaperModal")),
-  militaryPlans:  lazy(() => import("../modals/MilitaryPlansModal")),
-  ticket:         lazy(() => import("../modals/SubwayTicketModal")),
-  security:       lazy(() => import("../modals/SecurityFootageModal")),
+const MODALS: Record<
+  ModalKey,
+  React.LazyExoticComponent<React.ComponentType<ModalProps>>
+> = {
+  newspaper: lazy(() => import("../modals/NewspaperModal")),
+  militaryPlans: lazy(() => import("../modals/MilitaryPlansModal")),
+  ticket: lazy(() => import("../modals/SubwayTicketModal")),
+  security: lazy(() => import("../modals/SecurityFootageModal")),
   interrogations: lazy(() => import("../modals/InterrogationsModal")),
-  medical:        lazy(() => import("../modals/MedicalRecorsModal")),
-  photo:          lazy(() => import("../modals/OldPhotoModal")),
-  watch:          lazy(() => import("../modals/WatchModal")),
-  diary:          lazy(() => import("../modals/DiaryModal")),
-  incident:       lazy(() => import("../modals/IncidentReportModal")),
+  medical: lazy(() => import("../modals/MedicalRecorsModal")),
+  photo: lazy(() => import("../modals/OldPhotoModal")),
+  watch: lazy(() => import("../modals/WatchModal")),
+  diary: lazy(() => import("../modals/DiaryModal")),
+  incident: lazy(() => import("../modals/IncidentReportModal")),
 };
 
-// map, jestli je daný důkaz už kompletní
+// evidence completion (nezávislé na clues)
 type EvidenceState = Record<ModalKey, boolean>;
 
 const createInitialEvidenceState = (): EvidenceState => ({
-  newspaper:      false,
-  militaryPlans:  false,
-  ticket:         false,
-  security:       false,
+  newspaper: false,
+  militaryPlans: false,
+  ticket: false,
+  security: false,
   interrogations: false,
-  medical:        false,
-  photo:          false,
-  watch:          false,
-  diary:          false,
-  incident:       false,
+  medical: false,
+  photo: false,
+  watch: false,
+  diary: false,
+  incident: false,
 });
 
-const MainGame: React.FC<MainGameProps> = ({ children }) => {
+// clues per evidence (kolik /4 je nalezeno)
+type CluesState = Record<ModalKey, number>;
+
+const createInitialCluesState = (): CluesState => ({
+  newspaper: 0,
+  militaryPlans: 0,
+  ticket: 0,
+  security: 0,
+  interrogations: 0,
+  medical: 0,
+  photo: 0,
+  watch: 0,
+  diary: 0,
+  incident: 0,
+});
+
+const LS_KEY_CLUES = "amnesia:clues"; // localStorage key for clues state
+
+const TOTAL_CLUES_GLOBAL = 40;
+const CLUES_PER_EVIDENCE = 4;
+
+const MainGame: FC<MainGameProps> = ({ children }) => {
   const [openKey, setOpenKey] = useState<ModalKey | null>(null);
-  const [evidenceState, setEvidenceState] = useState<EvidenceState>(
-    () => createInitialEvidenceState()
+
+  const [evidenceState, setEvidenceState] = useState<EvidenceState>(() =>
+    createInitialEvidenceState()
   );
+
+  // load cluesState from localStorage (once, on mount)
+  const [cluesState, setCluesState] = useState<CluesState>(() => {
+    const base = createInitialCluesState();
+
+    if (typeof window === "undefined") {
+      return base;
+    }
+
+    try {
+      const raw = window.localStorage.getItem(LS_KEY_CLUES);
+      if (!raw) return base;
+
+      const parsed = JSON.parse(raw) as Partial<CluesState>;
+      return { ...base, ...parsed };
+    } catch {
+      return base;
+    }
+  });
+
+  // persist cluesState into localStorage whenever it changes
+  useEffect(() => {
+    try {
+      window.localStorage.setItem(LS_KEY_CLUES, JSON.stringify(cluesState));
+    } catch {
+      // ignore storage errors (private mode etc.)
+    }
+  }, [cluesState]);
+
+  // derived global count of all clues found
+  const totalCluesFound = useMemo(
+    () => Object.values(cluesState).reduce((sum, n) => sum + n, 0),
+    [cluesState]
+  );
+
+  // global hint message "Clue found"
   const [clueMessage, setClueMessage] = useState<string | null>(null);
 
-  // přepočet progressu z počtu hotových důkazů
+  // progress from completed evidences (NOT from clues)
   const progress = useMemo(() => {
     const total = Object.keys(evidenceState).length;
     const done = Object.values(evidenceState).filter(Boolean).length;
@@ -91,17 +168,23 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
   };
 
   const handleEvidenceComplete = (key: ModalKey) => {
-    setEvidenceState(prev => {
-      if (prev[key]) return prev; // už je hotový → nic neměň
+    setEvidenceState((prev) => {
+      if (prev[key]) return prev;
       return { ...prev, [key]: true };
     });
   };
 
-  const handleClueFound = () => {
+  // called from modals when a clue is found
+  const handleClueFoundForModal = (key: ModalKey) => {
+    setCluesState((prev) => {
+      const current = prev[key] ?? 0;
+      const next = Math.min(current + 1, CLUES_PER_EVIDENCE);
+      if (next === current) return prev;
+      return { ...prev, [key]: next };
+    });
 
     setClueMessage("Clue found");
-    // auto-vymazání po 2 vteřinách
-    window.setTimeout(() => setClueMessage(null), 2000);
+    window.setTimeout(() => setClueMessage(null), 1500);
   };
 
   const ModalComp = openKey ? MODALS[openKey] : null;
@@ -111,17 +194,23 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
       <header className="game-header" role="banner">
         <h1 className="case-title">Case 2510 - Amnesia</h1>
 
-        <div className="progress-wrap" data-case="2510" >
+        <div className="progress-wrap" data-case="2510">
           <progress
-            style={{ "--progress-color": getProgressColor(progress) } as React.CSSProperties}
+            style={
+              { "--progress-color": getProgressColor(progress) } as CSSProperties
+            }
             max={100}
             value={progress}
           >
             <strong>Progress: {progress} % done.</strong>
           </progress>
-          <p className="progress-label">
-            {progress}% case completion
+
+          <p className="progress-label">{progress}&nbsp;% case completion</p>
+
+          <p className="clue-counter">
+            Clues found: {totalCluesFound} / {TOTAL_CLUES_GLOBAL}
           </p>
+
           {clueMessage && (
             <p className="clue-message" aria-live="polite">
               {clueMessage}
@@ -186,7 +275,8 @@ const MainGame: React.FC<MainGameProps> = ({ children }) => {
             open={true}
             onClose={() => setOpenKey(null)}
             onEvidenceComplete={() => handleEvidenceComplete(openKey)}
-            onClueFound={handleClueFound}
+            onClueFound={() => handleClueFoundForModal(openKey)}
+            cluesFound={cluesState[openKey] ?? 0}
           />
         </Suspense>
       )}

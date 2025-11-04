@@ -86,6 +86,12 @@ li {
                 linear-gradient(#000,#000);
 }
 
+.clue-status {
+    font-weight: 600;
+    margin-top: var(--space-2);
+    font-size: var(--fs-lg);
+}
+
 
 /* ANIMATION*/
 /* Více řádků: jemný „fade-in“ s posunem (pro odstavce/lists) */
