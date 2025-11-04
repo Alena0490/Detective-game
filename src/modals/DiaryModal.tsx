@@ -104,7 +104,7 @@ const DiaryModal = ({
               Calibration stable; velocity projections exceed{" "}
               <strong>900 km/h</strong>.{" "}
               <Clue onFound={handleClueFound}>
-                <strong>Sergeant Richter</strong>
+                <strong>Lt.Richter</strong>
               </Clue>{" "}
               assigned to{" "}
               <Clue onFound={handleClueFound}>
