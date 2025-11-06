@@ -1,5 +1,9 @@
 import "./Modal.css";
 import Clue from "../components/Clue";
+import EvidenceQuiz from "../components/EvidenceQuiz";
+import { getEvidenceQuestions } from "../components/EvidenceQuiz";
+
+const EVIDENCE_KEY = "security";
 
 /**
  * ModalProps
@@ -15,6 +19,7 @@ type ModalProps = {
   onEvidenceComplete?: () => void;
   onClueFound?: () => void;
   cluesFound: number;
+  evidenceSolved: boolean;
 };
 
 /** Number of clue words inside this evidence text */
@@ -29,7 +34,7 @@ const TOTAL_CLUES = 4;
 const SecurityFootageModal = ({
   open,
   onClose,
-  // onEvidenceComplete, // will be used later for solving questions
+  onEvidenceComplete,
   onClueFound,
   cluesFound,
 }: ModalProps) => {
@@ -39,6 +44,8 @@ const SecurityFootageModal = ({
   const handleClueFound = () => {
     onClueFound?.();
   };
+
+  const questions = getEvidenceQuestions(EVIDENCE_KEY);
 
   return (
     <div
@@ -111,6 +118,14 @@ const SecurityFootageModal = ({
               Clues: {cluesFound} / {TOTAL_CLUES}
             </p>
           </article>
+          <br />
+          <p>---</p>
+          <br />
+            <EvidenceQuiz
+              title="Question"
+              questions={questions}
+              onSolved={() => onEvidenceComplete?.()}
+            />
         </section>
       </article>
     </div>

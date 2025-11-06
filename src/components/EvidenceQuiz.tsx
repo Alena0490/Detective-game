@@ -53,7 +53,7 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
     {
       id: "map-metro-open-year",
       label:
-        "According to the map, in which year was the metro officially opened?",
+        "In which year was opened the first official Metro line?",
       kind: "year",
       placeholder: "Year",
       correctAnswers: ["1974"],
@@ -139,11 +139,17 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
       label:
         "What percentage of the normal voltage did the power reach during the spike?",
       kind: "number",
-      placeholder: "Value (e.g. 400)",
+      placeholder: "Value",
       correctAnswers: ["400"],
     },
   ],
 };
+
+const QUIZ_LS_PREFIX = "amnesia:quizSolved:";
+
+const getQuizStorageKey = (questions: QuizQuestion[]) =>
+  QUIZ_LS_PREFIX + questions.map((q) => q.id).sort().join("|");
+
 
 export const getEvidenceQuestions = (key: EvidenceKey): QuizQuestion[] =>
   evidenceQuizMap[key] ?? [];
@@ -185,7 +191,15 @@ const EvidenceQuiz = ({
 }: EvidenceQuizProps) => {
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [error, setError] = useState<string | null>(null);
-  const [solved, setSolved] = useState(false);
+  const [solved, setSolved] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    try {
+      const key = getQuizStorageKey(questions);
+      return window.localStorage.getItem(key) === "1";
+    } catch {
+      return false;
+    }
+  });
 
   const handleChange = (id: string, value: string) => {
     setAnswers((prev) => ({ ...prev, [id]: value }));
@@ -216,23 +230,31 @@ const EvidenceQuiz = ({
     }
 
     setSolved(true);
+
+    try {
+      const key = getQuizStorageKey(questions);
+      window.localStorage.setItem(key, "1");
+    } catch {
+      // ignore storage errors
+    }
+
     onSolved();
   };
 
   return (
-    <section className="evidence-quiz">
+    <article className="evidence-quiz">
       <h3 className="evidence-quiz-title">{title}</h3>
 
       {solved && (
         <p className="evidence-quiz-success">
-          Evidence solved. Your answers are correct.
+          Evidence solved.
         </p>
       )}
 
       {!solved && (
-        <form onSubmit={handleSubmit} className="evidence-quiz-form">
+        <form onSubmit={handleSubmit} className="quiz-form">
           {questions.map((q) => (
-            <div className="evidence-quiz-question" key={q.id}>
+            <div className="quiz-question" key={q.id}>
               <label htmlFor={q.id}>{q.label}</label>
               <input
                 id={q.id}
@@ -251,12 +273,12 @@ const EvidenceQuiz = ({
 
           {error && <p className="evidence-quiz-error">{error}</p>}
 
-          <button type="submit" className="evidence-quiz-submit">
-            Submit answers
+          <button type="submit" className="quiz-submit button">
+            Submit
           </button>
         </form>
       )}
-    </section>
+    </article>
   );
 };
 

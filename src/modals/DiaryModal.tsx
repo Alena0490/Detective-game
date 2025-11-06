@@ -1,43 +1,35 @@
 import "./Modal.css";
 import Clue from "../components/Clue";
+import EvidenceQuiz from "../components/EvidenceQuiz";
+import { getEvidenceQuestions } from "../components/EvidenceQuiz";
 
-/**
- * ModalProps
- * - open: controls visibility of the modal
- * - onClose: closes the modal
- * - onEvidenceComplete: will be used later for solving questions under the text
- * - onClueFound: called when a single clue word is found
- * - cluesFound: how many clues for this evidence have been found so far
- */
+const EVIDENCE_KEY = "diary";
+
 type ModalProps = {
   open: boolean;
   onClose: () => void;
   onEvidenceComplete?: () => void;
   onClueFound?: () => void;
   cluesFound: number;
+  evidenceSolved: boolean;
 };
 
-/** Number of clue words inside this evidence text */
 const TOTAL_CLUES = 4;
 
-/**
- * DiaryModal
- * Evidence modal with interactive clue words.
- * Clues only affect the clue counters in MainGame,
- * they do NOT complete the evidence – that will be handled by questions later.
- */
 const DiaryModal = ({
   open,
   onClose,
+  onEvidenceComplete,
   onClueFound,
   cluesFound,
 }: ModalProps) => {
   if (!open) return null;
 
-  /** Called when the player finds a clue word */
   const handleClueFound = () => {
     onClueFound?.();
   };
+
+  const questions = getEvidenceQuestions(EVIDENCE_KEY);
 
   return (
     <div
@@ -63,7 +55,6 @@ const DiaryModal = ({
         </header>
 
         <section className="modal-body">
-          {/* Evidence metadata */}
           <article>
             <h3>EVIDENCE ITEM — NOTEBOOK</h3>
             <p>CASE ID: PR-29-10-2025</p>
@@ -76,7 +67,6 @@ const DiaryModal = ({
           <p>---</p>
           <br />
 
-          {/* Evidence content with interactive clues */}
           <article
             aria-label="Diary excerpt"
             className="evidence-paper fade-stagger"
@@ -150,11 +140,19 @@ const DiaryModal = ({
               <em>— Last entry ends abruptly. The remaining pages are blank.</em>
             </p>
 
-            {/* Clue counter for this evidence */}
             <p className="clue-status">
               Clues: {cluesFound} / {TOTAL_CLUES}
             </p>
           </article>
+
+          <br />
+          <p>---</p>
+          <br />
+            <EvidenceQuiz
+              title="Question"
+              questions={questions}
+              onSolved={() => onEvidenceComplete?.()}
+            />
         </section>
       </article>
     </div>

@@ -43,6 +43,7 @@ type ModalProps = {
   onEvidenceComplete?: () => void;
   onClueFound?: () => void;
   cluesFound: number;
+  evidenceSolved: boolean;
 };
 
 const MODALS: Record<
@@ -94,6 +95,8 @@ const createInitialCluesState = (): CluesState => ({
 });
 
 const LS_KEY_CLUES = "amnesia:clues"; // localStorage key for clues state
+const LS_KEY_EVIDENCE = "amnesia:evidence";
+
 
 const TOTAL_CLUES_GLOBAL = 40;
 const CLUES_PER_EVIDENCE = 4;
@@ -101,9 +104,24 @@ const CLUES_PER_EVIDENCE = 4;
 const MainGame: FC<MainGameProps> = ({ children }) => {
   const [openKey, setOpenKey] = useState<ModalKey | null>(null);
 
-  const [evidenceState, setEvidenceState] = useState<EvidenceState>(() =>
-    createInitialEvidenceState()
-  );
+  const [evidenceState, setEvidenceState] = useState<EvidenceState>(() => {
+    const base = createInitialEvidenceState();
+
+    if (typeof window === "undefined") {
+      return base;
+    }
+
+    try {
+      const raw = window.localStorage.getItem(LS_KEY_EVIDENCE);
+      if (!raw) return base;
+
+      const parsed = JSON.parse(raw) as Partial<EvidenceState>;
+      return { ...base, ...parsed };
+    } catch {
+      return base;
+    }
+  });
+
 
   // load cluesState from localStorage (once, on mount)
   const [cluesState, setCluesState] = useState<CluesState>(() => {
@@ -124,14 +142,16 @@ const MainGame: FC<MainGameProps> = ({ children }) => {
     }
   });
 
-  // persist cluesState into localStorage whenever it changes
+  // persist cluesState + evidenceState into localStorage whenever either changes
   useEffect(() => {
     try {
       window.localStorage.setItem(LS_KEY_CLUES, JSON.stringify(cluesState));
+      window.localStorage.setItem(LS_KEY_EVIDENCE, JSON.stringify(evidenceState));
     } catch {
       // ignore storage errors (private mode etc.)
     }
-  }, [cluesState]);
+  }, [cluesState, evidenceState]);
+
 
   // derived global count of all clues found
   const totalCluesFound = useMemo(
@@ -268,7 +288,6 @@ const MainGame: FC<MainGameProps> = ({ children }) => {
       </main>
 
       <footer className="game-footer" role="contentinfo" />
-
       {ModalComp && openKey && (
         <Suspense fallback={null}>
           <ModalComp
@@ -277,6 +296,7 @@ const MainGame: FC<MainGameProps> = ({ children }) => {
             onEvidenceComplete={() => handleEvidenceComplete(openKey)}
             onClueFound={() => handleClueFoundForModal(openKey)}
             cluesFound={cluesState[openKey] ?? 0}
+            evidenceSolved={evidenceState[openKey] ?? false}
           />
         </Suspense>
       )}
