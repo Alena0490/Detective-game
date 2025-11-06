@@ -2,11 +2,12 @@ import "./Evidence.css";
 import Map from "../img/map.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function  OldMilitaryPlans({ onOpen, state }: Props) {
+function  OldMilitaryPlans({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function  OldMilitaryPlans({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence old-map noir-ca"
+      className={`one-evidence map noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="lg"
       tabIndex={0}

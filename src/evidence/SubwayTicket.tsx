@@ -2,11 +2,12 @@ import "./Evidence.css";
 import Ticket from "../img/subway-ticket.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function  SubwayTicket({ onOpen, state }: Props) {
+function  SubwayTicket({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function  SubwayTicket({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence ticket noir-ca"
+      className={`one-evidence ticket noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="sm"
       tabIndex={0}

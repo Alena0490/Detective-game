@@ -2,11 +2,12 @@ import "./Evidence.css";
 import Photo from "../img/old-photo.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function  OldPhoto({ onOpen, state }: Props) {
+function  OldPhoto({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function  OldPhoto({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence old-photo noir-ca"
+      className={`one-evidence old-photo noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="sm"
       tabIndex={0}

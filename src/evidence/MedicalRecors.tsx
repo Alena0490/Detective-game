@@ -2,11 +2,12 @@ import "./Evidence.css";
 import MedicalNotes from "../img/medical-report.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function  MedicalReport({ onOpen, state }: Props) {
+function  MedicalReport({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function  MedicalReport({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence medical-notes noir-ca"
+      className={`one-evidence medical-notes noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="lg"
       tabIndex={0}

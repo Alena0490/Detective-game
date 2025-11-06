@@ -2,11 +2,12 @@ import "./Evidence.css";
 import WristWatch from "../img/watch.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function  Watch({ onOpen, state }: Props) {
+function  Watch({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function  Watch({ onOpen, state }: Props) {
 
   return (
     <article
-        className="one-evidence watch noir-ca"
+        className={`one-evidence watch noir ${completed ? "completed" : ""}`}
         data-state={state}
         data-size="sm"
         tabIndex={0}

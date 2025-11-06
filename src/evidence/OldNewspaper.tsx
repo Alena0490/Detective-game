@@ -2,11 +2,12 @@ import "./Evidence.css";
 import Newspaper from "../img/newspaper.webp"
 
 type Props = {
-  onOpen?: () => void;                         // volitelný callback pro otevření dialogu
-  state?: "new" | "seen" | "verified";         // volitelný vizuální stav (data-atribut)
+  onOpen?: () => void;
+  state?: "new" | "seen" | "verified";
+  completed?: boolean;
 };
 
-function OldNewspaper({ onOpen, state }: Props) {
+function OldNewspaper({ onOpen, state, completed }: Props) {
   const handleKeyDown = (e: React.KeyboardEvent) => {
     if (!onOpen) return;
     if (e.key === "Enter" || e.key === " ") {
@@ -17,7 +18,7 @@ function OldNewspaper({ onOpen, state }: Props) {
 
   return (
     <article
-      className="one-evidence newspaper noir-ca"
+      className={`one-evidence newspaper noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="sm"
       tabIndex={0}

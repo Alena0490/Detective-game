@@ -247,42 +247,52 @@ const MainGame: FC<MainGameProps> = ({ children }) => {
           <OldNewspaper
             onOpen={() => open("newspaper")}
             state={evidenceState.newspaper ? "verified" : "new"}
+             completed={evidenceState.newspaper}
           />
           <OldMilitaryPlans
             onOpen={() => open("militaryPlans")}
             state={evidenceState.militaryPlans ? "verified" : "new"}
+             completed={evidenceState.militaryPlans}
           />
           <SubwayTicket
             onOpen={() => open("ticket")}
             state={evidenceState.ticket ? "verified" : "new"}
+             completed={evidenceState.ticket}
           />
           <SecurityFootage
             onOpen={() => open("security")}
             state={evidenceState.security ? "verified" : "new"}
+             completed={evidenceState.security}
           />
           <Interrogations
             onOpen={() => open("interrogations")}
             state={evidenceState.interrogations ? "verified" : "new"}
+             completed={evidenceState.interrogations}
           />
           <MedicalRecords
             onOpen={() => open("medical")}
             state={evidenceState.medical ? "verified" : "new"}
+             completed={evidenceState.medical}
           />
           <OldPhoto
             onOpen={() => open("photo")}
             state={evidenceState.photo ? "verified" : "new"}
+             completed={evidenceState.photo}
           />
           <Watch
             onOpen={() => open("watch")}
             state={evidenceState.watch ? "verified" : "new"}
+             completed={evidenceState.watch}
           />
           <Diary
             onOpen={() => open("diary")}
             state={evidenceState.diary ? "verified" : "new"}
+            completed={evidenceState.diary}
           />
           <IncidentReport
             onOpen={() => open("incident")}
             state={evidenceState.incident ? "verified" : "new"}
+            completed={evidenceState.incident}
           />
         </section>
       </main>
