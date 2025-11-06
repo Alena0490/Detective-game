@@ -71,7 +71,7 @@ const MilitaryPlansModal = ({
             <p>ITEM NO.: 03</p>
             <p>RECOVERED: 2025-11-01 / 15:26 CET</p>
             <p>
-              ORIGIN: SEALED METAL CHEST — SUBSURFACE SITE / VLTAVSKÁ MAINTENANCE SECTOR
+              ORIGIN: SEALED METAL CHEST — SUBSURFACE SITE / VLTAVSKA MAINTENANCE SECTOR
             </p>
           </article>
 

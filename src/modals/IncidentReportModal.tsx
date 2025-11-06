@@ -133,11 +133,7 @@ const IncidentReportModal = ({
                     <strong>02:10</strong> — Power rerouted; traction lines still offline.
                   </li>
                   <li>
-                    <strong>03:15</strong> — <strong>CCTV</strong> recorded
-                    <br />
-                    a&nbsp;<strong>man</strong> emerging from a&nbsp;
-                    <strong>service portal</strong> in&nbsp;a&nbsp;
-                    <em>de-energized tunnel</em>.
+                    <strong>03:15</strong> — the Line&nbsp;C is still out of power..
                   </li>
                   <li>
                     <strong>04:15</strong> — Incident officially logged.
