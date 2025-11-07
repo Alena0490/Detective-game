@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import type { FC } from "react";
-import "./Winscreen.css";
+import "./WinScreen.css";
 
 interface WinScreenProps {
   cluesFound: number;
