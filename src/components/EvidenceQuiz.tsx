@@ -41,8 +41,7 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
   ticket: [
     {
       id: "ticket-max-speed",
-      label:
-        "What is the highest speed the metro was supposed to travel?",
+      label: "What is the highest speed the metro was supposed to travel?",
       kind: "number",
       placeholder: "Line-0 maximum speed",
       correctAnswers: ["900"],
@@ -52,8 +51,7 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
   militaryPlans: [
     {
       id: "map-metro-open-year",
-      label:
-        "In which year was opened the first official Metro line?",
+      label: "In which year was opened the first official Metro line?",
       kind: "year",
       placeholder: "Year",
       correctAnswers: ["1974"],
@@ -82,21 +80,21 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
     },
   ],
 
- medical: [
-  {
-    id: "medical-biggest-issue",
-    label: "What is the main problem with the man's medical results?",
-    kind: "text",
-    options: [
-      "His blood pressure is too low",
-      "He underwent treatments that are no longer used in current medicine",
-      "He has no visible injuries"
-    ],
-    correctAnswers: [
-      "He underwent treatments that are no longer used in current medicine"
-    ]
-  }
-],
+  medical: [
+    {
+      id: "medical-biggest-issue",
+      label: "What is the main problem with the man's medical results?",
+      kind: "text",
+      options: [
+        "His blood pressure is too low",
+        "He underwent treatments that are no longer used in current medicine",
+        "He has no visible injuries",
+      ],
+      correctAnswers: [
+        "He underwent treatments that are no longer used in current medicine",
+      ],
+    },
+  ],
 
   photo: [
     {
@@ -109,18 +107,18 @@ export const evidenceQuizMap: Record<EvidenceKey, QuizQuestion[]> = {
   ],
 
   watch: [
-  {
-    id: "watch-where-found",
-    label: "Where was the watch found?",
-    kind: "text",
-    options: [
-      "On the ground near the tracks",
-      "With the man",
-      "Inside the control room"
-    ],
-    correctAnswers: ["With the man"],
-  },
-],
+    {
+      id: "watch-where-found",
+      label: "Where was the watch found?",
+      kind: "text",
+      options: [
+        "On the ground near the tracks",
+        "With the man",
+        "Inside the control room",
+      ],
+      correctAnswers: ["With the man"],
+    },
+  ],
 
   diary: [
     {
@@ -149,7 +147,6 @@ const QUIZ_LS_PREFIX = "amnesia:quizSolved:";
 
 const getQuizStorageKey = (questions: QuizQuestion[]) =>
   QUIZ_LS_PREFIX + questions.map((q) => q.id).sort().join("|");
-
 
 export const getEvidenceQuestions = (key: EvidenceKey): QuizQuestion[] =>
   evidenceQuizMap[key] ?? [];
@@ -245,29 +242,46 @@ const EvidenceQuiz = ({
     <article className="evidence-quiz">
       <h3 className="evidence-quiz-title">{title}</h3>
 
-      {solved && (
-        <p className="evidence-quiz-success">
-          Evidence solved.
-        </p>
-      )}
+      {solved && <p className="evidence-quiz-success">Evidence solved.</p>}
 
       {!solved && (
         <form onSubmit={handleSubmit} className="quiz-form">
           {questions.map((q) => (
             <div className="quiz-question" key={q.id}>
-              <label htmlFor={q.id}>{q.label}</label>
-              <input
-                id={q.id}
-                type={getInputType(q.kind)}
-                inputMode={
-                  getInputType(q.kind) === "number" ? "numeric" : undefined
-                }
-                step={getInputType(q.kind) === "number" ? 1 : undefined}
-                value={answers[q.id] ?? ""}
-                onChange={(e) => handleChange(q.id, e.target.value)}
-                placeholder={q.placeholder}
-                autoComplete="off"
-              />
+              {/* Label */}
+              <label {...(q.options ? {} : { htmlFor: q.id })}>
+                {q.label}
+              </label>
+
+              {q.options ? (
+                <div className="quiz-options">
+                  {q.options.map((opt) => (
+                    <label key={opt} className="quiz-option">
+                      <input
+                        type="radio"
+                        name={q.id}
+                        value={opt}
+                        checked={answers[q.id] === opt}
+                        onChange={(e) => handleChange(q.id, e.target.value)}
+                      />
+                      <span>{opt}</span>
+                    </label>
+                  ))}
+                </div>
+              ) : (
+                <input
+                  id={q.id}
+                  type={getInputType(q.kind)}
+                  inputMode={
+                    getInputType(q.kind) === "number" ? "numeric" : undefined
+                  }
+                  step={getInputType(q.kind) === "number" ? 1 : undefined}
+                  value={answers[q.id] ?? ""}
+                  onChange={(e) => handleChange(q.id, e.target.value)}
+                  placeholder={q.placeholder}
+                  autoComplete="off"
+                />
+              )}
             </div>
           ))}
 

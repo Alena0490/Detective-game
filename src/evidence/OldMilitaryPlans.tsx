@@ -18,7 +18,7 @@ function  OldMilitaryPlans({ onOpen, state, completed }: Props) {
 
   return (
     <article
-      className={`one-evidence map noir ${completed ? "completed" : ""}`}
+      className={`one-evidence old-map noir ${completed ? "completed" : ""}`}
       data-state={state}
       data-size="lg"
       tabIndex={0}

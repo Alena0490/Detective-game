@@ -17,7 +17,7 @@
     position: relative;
     max-width: 950px;
     max-height: 90vh;
-    z-index: 200;
+    z-index: 500;
     display: flex;
     align-items: center;
     justify-content: flex-start;
