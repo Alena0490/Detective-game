@@ -1,0 +1,18 @@
+.solved {
+    color: var(--color-success);
+}
+
+.clues-found {
+    color: var(--color-text);
+    text-transform: uppercase;
+}
+
+.final-report {
+    overflow-y: auto;
+    scrollbar-color: var(--ink-64) var(--primary-12);
+    scrollbar-width: thin;
+}
+
+.final-report h2 {
+    color: var(--color-ink);
+}

@@ -23,6 +23,7 @@ import IncidentReport from "../evidence/IncidentReport";
 
 type MainGameProps = {
   children?: ReactNode;
+    onWin: (cluesFound: number) => void;
 };
 
 type ModalKey =
@@ -62,7 +63,7 @@ const MODALS: Record<
   incident: lazy(() => import("../modals/IncidentReportModal")),
 };
 
-// evidence completion (nezávislé na clues)
+// evidence completion
 type EvidenceState = Record<ModalKey, boolean>;
 
 const createInitialEvidenceState = (): EvidenceState => ({
@@ -78,7 +79,7 @@ const createInitialEvidenceState = (): EvidenceState => ({
   incident: false,
 });
 
-// clues per evidence (kolik /4 je nalezeno)
+// clues per evidence (x/4 )
 type CluesState = Record<ModalKey, number>;
 
 const createInitialCluesState = (): CluesState => ({
@@ -101,7 +102,7 @@ const LS_KEY_EVIDENCE = "amnesia:evidence";
 const TOTAL_CLUES_GLOBAL = 40;
 const CLUES_PER_EVIDENCE = 4;
 
-const MainGame: FC<MainGameProps> = ({ children }) => {
+const MainGame: FC<MainGameProps> = ({ children, onWin  }) => {
   const [openKey, setOpenKey] = useState<ModalKey | null>(null);
 
   const [evidenceState, setEvidenceState] = useState<EvidenceState>(() => {
@@ -169,6 +170,12 @@ const MainGame: FC<MainGameProps> = ({ children }) => {
     if (total === 0) return 0;
     return Math.round((done / total) * 100);
   }, [evidenceState]);
+
+    useEffect(() => {
+    if (progress === 100) {
+      onWin(totalCluesFound); // pošle do App počet nalezených clues
+    }
+  }, [progress, totalCluesFound, onWin]);
 
   const getProgressColor = (value: number) => {
     if (value <= 10) return "var(--color-danger)";
